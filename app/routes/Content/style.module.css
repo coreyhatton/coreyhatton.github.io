@@ -1,0 +1,104 @@
+.header,
+.main,
+.footer {
+  display: flex;
+  flex-direction: column;
+  grid-column-start: content;
+  border-block: unset;
+}
+
+.main {
+  flex: 1 1 auto;
+  row-gap: var(--gutter);
+  color: var(--text-contrast);
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--text-contrast);
+  }
+
+  details,
+  .aboutMe {
+    backdrop-filter: blur(10px);
+    background-color: color-mix(in oklab, var(--primary-d1), transparent 66%);
+    border: 1px solid var(--color-border);
+    padding: var(--spacing-md);
+    padding-block: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+
+    summary::before {
+      border-left-color: var(--color-base);
+    }
+
+    /* Stretch the summary to the size of the details container when closed */
+    summary::after {
+      --block-padding: var(--spacing-sm);
+      --inline-padding: var(--spacing-md);
+
+      content: "";
+      position: absolute;
+      top: calc(0px - var(--block-padding));
+      bottom: calc(0px - var(--block-padding));
+      right: calc(0px - var(--inline-padding));
+      left: calc(0px - var(--inline-padding));
+      z-index: 1;
+      cursor: pointer;
+    }
+  }
+}
+
+.header {
+  place-items: center;
+  text-align: center;
+  padding-block-start: var(--spacing-sm);
+  padding-block-end: unset;
+  color: var(--text-contrast);
+
+  hgroup {
+    position: relative;
+    inline-size: 100%;
+    place-content: center;
+    padding: var(--spacing-md);
+    padding-block-start: 5.5rlh;
+
+    backdrop-filter: blur(10px);
+    background-color: color-mix(in oklab, var(--primary-d1), transparent 66%);
+    border: 1px solid var(--color-border);
+    line-height: 1;
+    border-radius: var(--border-radius);
+
+    h1 {
+      margin-block: var(--spacing-xxs);
+    }
+  }
+
+  .portrait {
+    position: absolute;
+    top: var(--spacing-sm);
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0px 3px 4px color-mix(in oklab, var(--gray-d2), transparent 70%);
+    max-block-size: 5rlh;
+    background-color: var(--color-primary);
+    z-index: 1;
+  }
+}
+
+.footer {
+  padding-block: var(--spacing-sm);
+  color: var(--text-contrast);
+  row-gap: var(--spacing-xxs);
+
+  border-block-start: 1px solid var(--color-border);
+
+  .socialIcons {
+    display: flex;
+    justify-content: center;
+    gap: var(--gutter-sm);
+  }
+}

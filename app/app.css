@@ -1,0 +1,57 @@
+@import url("./styles/default.css/style.css");
+
+:root,
+::backdrop {
+  @supports not (overflow-block: scroll) {
+    overflow-y: scroll;
+  }
+
+  overflow-block: scroll;
+  scrollbar-gutter: stable;
+}
+
+.bg-full::before {
+  content: "";
+  position: fixed;
+  inline-size: 100%;
+  block-size: 100dvh;
+  z-index: -2;
+
+  background: url("./assets/beach.jpg") no-repeat 0% 90% / cover fixed;
+  background-color: var(--color-primary);
+  filter: brightness(0.7);
+}
+
+.copyright {
+  position: fixed;
+  bottom: var(--spacing-xs);
+  right: var(--spacing-md);
+  font-size: var(--fontsize-xs);
+  color: var(--text-contrast);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.error {
+  align-content: flex-start;
+
+  header {
+    display: grid;
+    row-gap: inherit;
+    place-items: center;
+    font-size: var(--fontsize-xl);
+  }
+
+  footer {
+    place-items: center;
+  }
+
+  summary {
+    font-family: var(--font-mono);
+    font-weight: unset;
+  }
+
+  pre {
+    margin-block: var(--spacing-sm);
+  }
+}

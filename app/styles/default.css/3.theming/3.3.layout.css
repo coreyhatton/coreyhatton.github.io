@@ -1,0 +1,488 @@
+@layer theming.layout.header {
+  /* Header, Main, Footer specifics */
+
+  /********** HEADER **********/
+  :is(header, footer):not(main *) {
+    row-gap: var(--gutter-sm);
+    padding-block: var(--spacing-md);
+
+    &:is(header) {
+      border-block-end: 2px solid var(--color-border);
+    }
+
+    &:is(footer) {
+      text-align: center;
+      font-size: var(--fontsize-sm);
+      padding-block: var(--gutter-lg);
+      padding-block-end: var(--gutter-lg);
+
+      border-block-start: 2px solid var(--color-border);
+    }
+
+    hgroup,
+    header > *:not(:only-child) {
+      margin: unset;
+    }
+
+    hgroup {
+      display: grid;
+      column-gap: var(--gutter);
+      place-items: center;
+      place-content: space-between;
+    }
+  }
+
+  /********** ASIDE (usually sidebar) **********/
+  aside:not(main aside) {
+    font-size: var(--fontsize-sm);
+    border-block: 1px solid var(--color-border);
+    padding-block: var(--gutter);
+    margin-block: var(--spacing-sm);
+
+    & h1,
+    & h2,
+    & h3,
+    & h4,
+    & h5,
+    & h6 {
+      font-size: var(--font-main);
+      text-transform: none;
+      letter-spacing: none;
+    }
+  }
+}
+
+@layer theming.layout.nav {
+  /********** NAV **********/
+
+  nav:not(header nav) {
+    > ul,
+    > ol,
+    > menu {
+      display: flex;
+      gap: inherit;
+      flex-direction: row;
+      flex-wrap: wrap;
+      place-content: flex-start space-between;
+      grid-column: content;
+    }
+  }
+
+  /* ADD BUTTON STYLES FOR ACCESSIBILITY
+    https://www.a11y-collective.com/blog/accessible-mega-menu/
+ */
+
+  header nav {
+    --nav-block-spacing: var(--spacing-xs);
+    --color-text-block: var(--text-contrast);
+
+    display: block;
+    align-items: flex-start;
+    grid-column: content;
+
+    ul,
+    ol,
+    menu {
+      display: flex;
+      padding-inline: 0;
+      column-gap: var(--gutter-sm);
+      row-gap: var(--spacing-xxs);
+      list-style: none;
+      color: var(--color-text-block);
+      font-size: var(--fontsize-md);
+      text-align: center;
+      align-items: center;
+
+      li {
+        position: relative;
+        padding-inline: var(--spacing-sm);
+        padding-block: var(--nav-block-spacing);
+        border-radius: var(--border-radius);
+        background-color: var(--primary-d1);
+
+        transition: background-color 280ms ease-in-out;
+      }
+
+      li li {
+        background-color: transparent;
+
+        &:hover,
+        &:focus-within {
+          background-color: color-mix(in oklab, var(--color-base), transparent 70%);
+          transition: background-color 280ms ease-in-out;
+        }
+      }
+
+      a {
+        color: inherit;
+      }
+
+      /* Stretched link */
+      li > a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        cursor: pointer;
+      }
+
+      /* With submenu */
+      &:has(menu, ul, ol) {
+        flex-wrap: wrap;
+
+        /* Arrow icon for top-level menu items */
+        > li > a::after {
+          content: "";
+          display: inline-block;
+          translate: 0 0.125em;
+          margin-inline-start: 0.25em;
+          border: 0.25em solid transparent;
+          border-top-color: color-mix(in oklab, var(--color-text-block) 66%, transparent);
+        }
+
+        /* Extend box to submenu for mouseover */
+        & > li > a::before {
+          margin-block-end: calc(0px - var(--spacing-sm));
+        }
+      }
+
+      /* Submenus / Mouseover nav menu
+       * Note that for the nav menu to be properly accessible according to WCAG, some 
+       * Javascript is required for keyboard functionality. @LINK
+       */
+      ul,
+      ol,
+      menu {
+        /* visibility: hidden; */
+        /* content-visibility: hidden; */
+        flex-direction: column;
+        opacity: 0;
+
+        pointer-events: none;
+        z-index: 10;
+
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        translate: -50% calc(0px - var(--spacing-xs));
+        margin-top: var(--nav-block-spacing);
+
+        min-inline-size: max(100%, 15ch);
+        align-items: center;
+
+        color: initial;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        background-color: var(--primary-l3);
+
+        transition: 120ms all 120ms ease-in-out allow-discrete;
+
+        li {
+          min-inline-size: 100%;
+        }
+
+        li:first-of-type & {
+          left: 0;
+          translate: 0 calc(0px - var(--spacing-xs));
+        }
+
+        li:last-of-type & {
+          left: auto;
+          right: 0;
+          translate: 0 calc(0px - var(--spacing-xs));
+        }
+      }
+
+      li:has(ul, ol, menu) {
+        padding-block: var(--nav-block-spacing);
+        padding-inline: var(--spacing-md);
+
+        &:hover,
+        &:focus-within {
+          background-color: var(--color-primary);
+          transition: background-color 280ms ease-in-out;
+
+          ul,
+          ol {
+            pointer-events: initial;
+            opacity: 1;
+            transform: translateY(var(--spacing-xs));
+
+            &::after {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@layer theming.layout {
+  :root,
+  ::backdrop {
+    --input-columns: [label-start] minmax(6ch, max-content) [label-end input-start] minmax(60%, 1fr) [input-end];
+  }
+
+  /* FORMS **********************/
+  /* https://html.spec.whatwg.org/multipage/forms.html **/
+  form {
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: var(--color-gray);
+    --color-fieldset-border: var(--color-border);
+    --color-form-legend: var(--primary-d1);
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    gap: var(--gutter);
+
+    /* Change the placeholder text to be more accessible. */
+    /* https://www.w3.org/WAI/tutorials/forms/instructions/ */
+    ::placeholder {
+      color: var(--color-gray);
+      opacity: 1;
+    }
+
+    /* Remove the list styles for radio and checkbox inputs */
+    :where(ul, ol):has([type="radio"], [type="checkbox"]) {
+      padding-inline: unset;
+
+      li:has(> label, > input):has([type="radio"], [type="checkbox"]) {
+        list-style: none;
+      }
+    }
+  }
+
+  input {
+    overflow-x: auto;
+
+    *:has(> &) {
+      min-inline-size: 0;
+    }
+  }
+
+  fieldset {
+    display: grid;
+    grid-template-columns: var(--input-columns);
+    column-gap: clamp(var(--gutter-sm), var(--gutter), var(--gutter)); /* Shrinks to small at low viewport width */
+    row-gap: var(--gutter);
+
+    padding-inline: var(--spacing-md);
+    padding-block-start: var(--spacing-sm);
+    padding-block-end: var(--spacing-md);
+
+    border-color: var(--color-fieldset-border);
+    border-radius: var(--border-radius);
+
+    legend {
+      font-weight: bold;
+      font-family: var(--font-headings);
+      color: var(--color-form-legend);
+    }
+
+    /* Align everything to the outer edges of the containing fieldset by default */
+    * {
+      grid-column: -1 / 1;
+    }
+
+    /* Remove gutter between label and inputs  */
+    > label + input {
+      margin-block-start: calc(0px - var(--gutter));
+    }
+  }
+
+  /* 
+    *  EXPLICIT INPUT LABELS
+    *  When the <Input> element is placed sequential to the <Label> element, display
+    *  them vertically stacked. This is the recommended layout for quick completion of 
+    *  forms, although it does increase the vertical real estate required.  
+    */
+  & p:has(> label + :where(input, select, textarea), > input:only-child):not(label) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 
+    *  IMPLICIT INPUT LABELS 
+    *  When the <Input> element is nested within the <Label> element, display
+    *  them horizontally with consistent label and input widths.  
+    */
+  label:has(> input:not([type="checkbox"], [type="radio"]), > select, > textarea, > progress) {
+    display: inline-grid;
+    grid-template-columns: var(--input-columns);
+    text-align: end;
+    place-items: center stretch;
+    gap: inherit;
+    overflow-x: auto;
+
+    p {
+      grid-column: label;
+      max-inline-size: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    input {
+      grid-column: input;
+      max-inline-size: 100%;
+    }
+  }
+
+  input:not(
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"],
+      [type="color"]
+    ),
+  select,
+  textarea {
+    /* Padding is based on text size within inputs */
+    padding-block: 0.5em;
+    padding-inline: 1em;
+    vertical-align: top;
+
+    border-width: var(--border-width);
+    border-style: var(--border-style);
+    border-color: var(--border-color);
+
+    &,
+    *:has(> &) {
+      min-inline-size: 20ch;
+    }
+
+    &:focus,
+    &:focus-within {
+      outline-color: var(--color-accent);
+      outline-offset: var(--border-width);
+    }
+  }
+
+  option:checked {
+    background-color: var(--accent-l3);
+    font-weight: 500;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  [type="checkbox"],
+  [type="radio"],
+  [type="range"],
+  progress {
+    accent-color: var(--color-accent);
+  }
+
+  [type="radio"],
+  [type="checkbox"] {
+    position: relative;
+    inline-size: fit-content;
+    margin-inline-end: var(--gutter-sm);
+
+    cursor: pointer;
+
+    label:has(&),
+    ~ label {
+      cursor: pointer;
+    }
+  }
+
+  [type="datetime-local"],
+  [type="week"],
+  [type="month"],
+  [type="date"],
+  [type="text"]:has(+ datalist),
+  [type="color"],
+  select {
+    box-shadow: inset 0px 1px 3px 1px var(--gray-l3);
+    border-radius: var(--border-radius);
+  }
+
+  [type="color"] {
+    min-inline-size: 100%;
+    min-block-size: 1rlh;
+
+    padding-inline: var(--spacing-xs);
+    padding-block: 3px;
+  }
+
+  [type="search"],
+  [role="search"] {
+    border-radius: 1.2em;
+  }
+
+  [type="file"] {
+    color: var(--text-muted);
+    inline-size: 100%;
+
+    &::file-selector-button {
+      margin-inline-end: var(--gutter);
+    }
+  }
+
+  button,
+  [role="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="button"],
+  label[type="button"] {
+    cursor: pointer;
+    inline-size: max-content;
+  }
+}
+
+@layer theming.layout {
+  main :is(article, section, nav, aside, hgroup, address) {
+    padding-block: var(--spacing-md);
+  }
+
+  section {
+    padding-inline: var(--spacing-md);
+    margin-inline: calc(0px - var(--spacing-md));
+  }
+
+  section,
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+
+    overflow-x: auto;
+  }
+
+  section:not(:has(article)),
+  section article,
+  form:has(fieldset) {
+    padding: var(--spacing-md);
+
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+  }
+
+  article:has(article) {
+    --calc: calc(var(--calc, 90%) - 10%);
+    --article-background: color-mix(in oklab, var(--color-primary) var(--calc), transparent);
+    article {
+      --article-background: color-mix(in oklab, var(--color-primary) var(--calc), transparent);
+      article {
+        --article-background: color-mix(in oklab, var(--color-primary) var(--calc), transparent);
+      }
+    }
+  }
+
+  hr {
+    display: block;
+    background-color: var(--color-tertiary);
+    border: none;
+    height: 2px;
+    width: 100%;
+  }
+}
