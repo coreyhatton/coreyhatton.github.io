@@ -37,7 +37,6 @@
     font-size: var(--fontsize-sm);
     border-block: 1px solid var(--color-border);
     padding-block: var(--gutter);
-    margin-block: var(--spacing-sm);
 
     & h1,
     & h2,

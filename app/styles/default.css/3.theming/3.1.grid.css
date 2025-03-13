@@ -5,7 +5,6 @@
     display: grid;
     gap: var(--gutter, 1rem);
     min-block-size: 100dvh;
-    column-gap: 0;
 
     /* @DEV Auto-fit doesn't currently play nice with containment in webkit browsers 
        @see https://bugs.webkit.org/show_bug.cgi?id=256047 */
@@ -21,10 +20,12 @@
     --grid-page-gutters: max(6dvw, calc(50dvw - var(--content-size) / 2));
 
     /* Wide size uses extra column when viewport is larger than the content size using following media query */
-    --wide-template-columns: [wide-start col-start] minmax(0, 1fr) [col-end content-start col-start]
-      repeat(10, [col-start] minmax(0, 1fr) [col-end]) [content-end col-start] minmax(0, 1fr) [col-end wide-end];
-    --content-template-columns: [wide-start content-start] repeat(12, [col-start] minmax(0, 1fr) [col-end]) [content-end
-      wide-end];
+    --wide-template-columns: [sidebar-start wide-start col-start] minmax(0, 1fr) [col-end content-start]
+      repeat(3, [col-start] minmax(0, 1fr) [col-end]) [sidebar-end main-start wide-start]
+      repeat(7, [col-start] minmax(0, 1fr) [col-end]) [main-end col-start] minmax(0, 1fr) [col-end wide-end];
+
+    --content-template-columns: [wide-start content-start sidebar-start] repeat(4, [col-start] minmax(0, 1fr) [col-end])
+      [sidebar-end main-start] repeat(8, [col-start] minmax(0, 1fr) [col-end]) [main-end content-end wide-end];
 
     --template-columns: var(--content-template-columns);
     /* Expand wide columns out from content columns with large screen width */
@@ -67,19 +68,29 @@
 
     :where(header, footer):not(main header, main footer) {
       grid-column: full;
+      grid-row: header;
+    }
+
+    > :where(main, aside, nav) {
+      grid-column: content;
+      grid-row: content;
+    }
+
+    > aside ~ main {
+      grid-column: main;
     }
 
     /* main,
     :where(header, footer):not(main header, main footer), */
-    > * {
+    /* > * {
       display: grid;
       grid-template-columns: subgrid;
       grid-column: full;
-      row-gap: var(--gutter);
+      row-gap: var(--gutter); */
 
-      > * {
-        grid-column: content; /* default to column. Expand to wide on individual elements. */
-      }
-    }
+    /* > * { */
+    grid-column: content; /* default to column. Expand to wide on individual elements. */
+    /* } */
+    /* } */
   }
 }

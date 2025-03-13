@@ -30,6 +30,7 @@
   color: var(--text-contrast);
   opacity: 0.6;
   z-index: -1;
+  grid-column: full;
 }
 
 .error {

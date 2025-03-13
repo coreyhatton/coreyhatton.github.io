@@ -1,10 +1,71 @@
+import { Link } from "react-router";
 import styles from "./style.module.css";
 
 const content = [
   {
-    title: "About Me",
+    title: "",
+    display: "inline",
     content: (
       <>
+        <p>
+          Communications & Marketing Professional based in Perth, Western
+          Australia.
+        </p>
+        <p>
+          Currently working as an independent marcomms consultant for SME
+          businesses across WA and Australia.
+        </p>
+        <p>Previously xxx</p>
+        <p>
+          My love for leveraging data to craft captivating content, optimise
+          communications and implement effective internal and external
+          engagement strategies translates to xxx.
+        </p>
+        <p>
+          Strong understanding of digital, and have created multiple projects
+          from scratch - check them out in <Link to="/projects">Projects</Link>.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "About Me",
+    display: "inline",
+    content: (
+      <>
+        <ul>
+          <li>
+            <p>
+              {`I think like a marketer, but I write like a writer. That means
+              that no matter the piece I’m writing, from that catchy bit of
+              SEO-optimised web content to the most basic of product
+              copywriting, people always come first. Converting readers to
+              customers is no easy feat – but it gets a whole lot easier when
+              they’re engaged with relevant, informative content tailored to
+              their unique needs.`}
+            </p>
+          </li>
+          <li>
+            <p>
+              Communication and transparency are core values of every project I
+              work on. I believe that proactive communication and transparency
+              are integral to creating successful content for successful
+              businesses. Whether it’s tailor-made content briefs or unlimited
+              rewrites until you’re 100% satisfied with the work before we
+              publish, I make sure that every step of the project lifecycle
+              lives and breathes collaboration and co-creation.
+            </p>
+          </li>
+          <li>
+            <p>
+              I understand what goes in and what comes out of your business
+              planning. I’ve worked on both sides of the marketing equation –
+              from in-house communications teams to agency-side consulting, I’ve
+              got the knowledge and skills to provide quality content that
+              audiences want to read, and businesses want to show.
+            </p>
+          </li>
+        </ul>
         <p>
           I am a seasoned Marketing & Communications Strategist based in Perth,
           Western Australia. I have a strong background in Marketing and
@@ -89,19 +150,20 @@ const MainContent = () => {
   return (
     <>
       {content.map((item) => {
-        // if (item.title === "About Me") {
-        //   return (
-        //     <div key={item.title} className={styles.aboutMe}>
-        //       {item.content}
-        //     </div>
-        //   );
-        // }
+        if (item.display === "inline") {
+          return (
+            <article key={item.title}>
+              <h2>{item.title && item.title}</h2>
+              {item.content}
+            </article>
+          );
+        }
 
         return (
-          <details key={item.title}>
-            <summary>{item.title}</summary>
+          <article key={item.title}>
+            {item.title && <h2>{item.title}</h2>}
             {item.content}
-          </details>
+          </article>
         );
       })}
     </>

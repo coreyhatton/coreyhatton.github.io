@@ -12,7 +12,6 @@ import stylesheet from "./app.css?url";
 import favicon from "~/assets/favicon.png";
 import background from "~/assets/beach.jpg";
 import { Icon } from "@iconify/react";
-import Container from "./components/Container";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -43,7 +42,7 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children?: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -55,8 +54,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <div id="root" className="bg-full">
           {children}
+          <p className="copyright">{`©Corey Hatton ${new Date().getFullYear()}`}</p>
         </div>
-        <p className="copyright">{`©Corey Hatton ${new Date().getFullYear()}`}</p>
+
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -69,9 +69,9 @@ export default function App() {
 }
 
 export const HydrateFallback = () => (
-  <Container>
+  <div>
     <Icon icon="eos-icons:loading" />{" "}
-  </Container>
+  </div>
 );
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

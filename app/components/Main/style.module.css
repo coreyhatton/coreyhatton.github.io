@@ -1,0 +1,258 @@
+.main {
+  --color-border: var(--color-base);
+
+  flex: 1 1 max(480px, 50%);
+
+  display: grid;
+  grid-column: col-start 4 / wide-end;
+  grid-row: content;
+
+  grid-template-columns: 0 1fr 0;
+  grid-template-areas:
+    "gutterStart header header"
+    "gutterStart content gutterEnd"
+    "gutterStart footer gutterEnd";
+
+  align-self: start;
+
+  column-gap: var(--gutter);
+  padding-block-end: var(--gutter);
+
+  position: relative;
+
+  background: radial-gradient(circle at 20% 66%, var(--color-primary), transparent),
+    linear-gradient(
+      169deg,
+      var(--primary-l2),
+      var(--primary-l1) 6dvh,
+      var(--color-primary) 66dvh,
+      var(--color-primary) 86dvh,
+      var(--primary-d1) 98dvh
+    );
+
+  background-color: var(--color-primary);
+  border: 2px solid color-mix(in oklab, var(--primary-l4), transparent 20%);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  grid-area: content;
+  gap: var(--spacing-md);
+}
+
+.header {
+  display: flex;
+  padding-inline: var(--gutter);
+  padding-block: var(--spacing-xxs);
+
+  grid-area: header;
+  place-items: center flex-end;
+  inline-size: max-content;
+  place-self: end;
+
+  gap: var(--gutter);
+
+  color: var(--text-contrast);
+  background-color: var(--primary-d1);
+  border-end-start-radius: var(--border-radius);
+  border-start-end-radius: var(--border-radius);
+}
+
+.nav {
+  display: contents;
+
+  a {
+    color: inherit;
+  }
+
+  .menu,
+  .submenu {
+    display: flex;
+
+    padding-inline: 0;
+    column-gap: var(--gutter);
+    row-gap: var(--spacing-xxs);
+    list-style: none;
+    font-size: var(--fontsize-md);
+    text-align: center;
+    align-items: center;
+
+    .menuItem {
+      position: relative;
+      /* padding-inline: var(--spacing-sm); */
+      padding: var(--spacing-xs);
+      border-radius: var(--border-radius);
+      background-color: var(--primary-d1);
+
+      transition: background-color 280ms ease-in-out;
+    }
+
+    .menuItem,
+    .submenu__item {
+      background-color: transparent;
+
+      &:hover,
+      &:focus-within {
+        background-color: color-mix(in oklab, var(--color-base), transparent 70%);
+        transition: background-color 280ms ease-in-out;
+      }
+    }
+
+    /* Stretched link */
+    .menuItem > a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      cursor: pointer;
+    }
+  }
+}
+
+/* 
+.nav {
+    --nav-block-spacing: var(--spacing-xs);
+    --color-text-block: var(--text-contrast);
+
+    .menu,
+    .submenu {
+      display: flex;
+      padding-inline: 0;
+      column-gap: var(--gutter-sm);
+      row-gap: var(--spacing-xxs);
+      list-style: none;
+      color: var(--color-text-block);
+      font-size: var(--fontsize-md);
+      text-align: center;
+      align-items: center;
+
+      .menuItem {
+        position: relative;
+        padding-inline: var(--spacing-sm);
+        padding-block: var(--nav-block-spacing);
+        border-radius: var(--border-radius);
+        background-color: var(--primary-d1);
+
+        transition: background-color 280ms ease-in-out;
+      }
+
+      li li,
+      .submenu__item {
+        background-color: transparent;
+
+        &:hover,
+        &:focus-within {
+          background-color: color-mix(in oklab, var(--color-base), transparent 70%);
+          transition: background-color 280ms ease-in-out;
+        }
+      }
+
+      a {
+        color: inherit;
+      } */
+
+/* Stretched link */
+/* li > a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        cursor: pointer;
+      } */
+
+/* With submenu */
+/* &:has(.menu) {
+        flex-wrap: wrap; */
+
+/* Arrow icon for top-level menu items */
+/* > li > a::after {
+          content: "";
+          display: inline-block;
+          translate: 0 0.125em;
+          margin-inline-start: 0.25em;
+          border: 0.25em solid transparent;
+          border-top-color: color-mix(in oklab, var(--color-text-block) 66%, transparent);
+        } */
+
+/* & > li > a::before {
+          margin-block-end: calc(0px - var(--spacing-sm));
+        }
+      } */
+
+/* Submenus / Mouseover nav menu
+       * Note that for the nav menu to be properly accessible according to WCAG, some 
+       * Javascript is required for keyboard functionality. @LINK
+       */
+/* .submenu { */
+/* visibility: hidden; */
+/* content-visibility: hidden; */
+/* flex-direction: column;
+        opacity: 0;
+
+        pointer-events: none;
+        z-index: 10;
+
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        translate: -50% calc(0px - var(--spacing-xs));
+        margin-top: var(--nav-block-spacing);
+
+        min-inline-size: max(100%, 15ch);
+        align-items: center;
+
+        color: initial;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        background-color: var(--primary-l3);
+
+        transition: 120ms all 120ms ease-in-out allow-discrete;
+
+        li {
+          min-inline-size: 100%;
+        }
+
+        li:first-of-type & {
+          left: 0;
+          translate: 0 calc(0px - var(--spacing-xs));
+        }
+
+        li:last-of-type & {
+          left: auto;
+          right: 0;
+          translate: 0 calc(0px - var(--spacing-xs));
+        }
+      }
+
+      li:has(.submenu) {
+        padding-block: var(--nav-block-spacing);
+        padding-inline: var(--spacing-md);
+
+        &:hover,
+        &:focus-within {
+          background-color: var(--color-primary);
+          transition: background-color 280ms ease-in-out;
+
+          ul,
+          ol {
+            pointer-events: initial;
+            opacity: 1;
+            transform: translateY(var(--spacing-xs));
+
+            &::after {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  } */
