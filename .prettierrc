@@ -8,6 +8,17 @@
             "options": {
                 "printWidth": 120
             }
+        },
+        {
+            "files": [
+                "*.svg, *.xml"
+            ],
+            "options": {
+                "parser": "html"
+            }
         }
+    ],
+    "plugins": [
+        "@prettier/plugin-xml"
     ]
 }
