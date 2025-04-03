@@ -1,0 +1,17 @@
+@layer tokens.colors {
+  :root,
+  ::backdrop {
+    --primary-base: color-mix(in oklab, var(--color-primary) 10%, var(--color--base));
+    --secondary-base: color-mix(in oklab, var(--color-secondary) 10%, var(--color--base));
+    --tertiary-base: color-mix(in oklab, var(--color-tertiary) 10%, var(--color--base));
+    --accent-base: color-mix(in oklab, var(--color-accent) 10%, var(--color--base));
+
+    --gradient-1: radial-gradient(at 100% 100%, var(--primary-base) 0px, transparent 50%),
+      radial-gradient(at 41% 85%, var(--tertiary-base) 0px, transparent 50%),
+      radial-gradient(at 56% 36%, var(--secondary-base) 0px, transparent 50%),
+      radial-gradient(at 72% 61%, var(--accent-base) 0px, transparent 50%),
+      radial-gradient(at 33% 38%, var(--tertiary-l3) 0px, transparent 50%),
+      radial-gradient(at 80% 47%, var(--secondary-l3) 0px, transparent 50%),
+      radial-gradient(at 27% 54%, var(--primary-l3) 0px, transparent 50%), var(--color--primary);
+  }
+}

@@ -14,7 +14,7 @@
     --theme-font-mono: "ui-monospace";
 
     --fontsize-base: 1rem /* Default usually 16px base. */;
-    --fixed-scale: 1.25; /* Major Third scale as base. */
+    --fixed-scale: 1.2; /* Minor Third scale as base. */
 
     --line-height: 1.618; /* Golden Ratio as base. WCAG recommends for accessibility >1.5rlh. */
     --line-height-condensed: calc(var(--line-height) * 0.8);

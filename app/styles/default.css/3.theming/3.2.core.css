@@ -21,7 +21,7 @@
   }
 
   /* LISTS **********************/
-  :is(ul, ol):not(nav ul, nav ol) {
+  :where(ul, ol):not(nav ul, nav ol) {
     display: flex;
     flex-direction: column;
     gap: var(--gutter-xs);
@@ -38,7 +38,7 @@
     & li::marker {
       display: inline-flex;
       font: inherit;
-      text-align: none;
+      text-align: unset;
     }
 
     &[role="list"],
@@ -134,14 +134,13 @@
   }
 
   :is(h1, h2, h3) {
-    line-height: var(--line-height-condensed);
+    line-height: var(--line-height-condensed, 1.2);
   }
 
   h1 {
-    margin-block-end: var(--spacing-sm);
-    font-size: var(--fontsize-title);
+    /* margin-block-end: var(--spacing-sm); */
+    font-size: var(--fontsize-xxl);
     font-weight: bolder;
-    /* color: var(--color-primary); */
   }
 
   h2 {
@@ -316,7 +315,9 @@
 
     overflow-x: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--color-accent) transparent;
+    @supports (scrollbar-color: var(--color-accent) transparent) {
+      scrollbar-color: var(--color-accent) transparent;
+    }
   }
 
   blockquote,
@@ -594,14 +595,6 @@
       }
     }
   }
-
-  hr {
-    display: block;
-    background-color: var(--color-tertiary, currentColor);
-    border: none;
-    height: 2px;
-    width: 100%;
-  }
 }
 
 @layer theming.layout {
@@ -619,6 +612,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+
+    max-inline-size: 100%;
 
     overflow-x: auto;
 
@@ -638,9 +633,9 @@
 
   hr {
     display: block;
-    background-color: var(--color-tertiary);
+    background-color: currentColor;
     border: none;
-    height: 2px;
-    width: 100%;
+    block-size: 2px;
+    inline-size: 100%;
   }
 }

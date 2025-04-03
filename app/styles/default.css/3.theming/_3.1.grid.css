@@ -4,60 +4,51 @@
   body > #root {
     display: grid;
     gap: var(--gutter, 1rem);
-    column-gap: var(--gutter-sm);
     min-block-size: 100dvb;
 
     /* @DEV Auto-fit doesn't currently play nice with containment in webkit browsers 
        @see https://bugs.webkit.org/show_bug.cgi?id=256047 */
     /* container: body / inline-size; */
 
-    --content-size: 960px;
-    --wide-size: 1200px;
-    /* NOTE: Must match with min-width specified in the below media query. */
-    --wide-col-size: calc((var(--wide-size) / 6) - (var(--gutter-sm) * 12));
+    --content-size: 1200px; /* NOTE: Must match with min-width specified in the below media query. */
 
-    /* To be used for direct children of the grid container if flexbox is used */
-    /* e.g., padding-inline: var(--flex-child__content-gutters); to place content in content area */
-    --flex-child__content-gutters: calc(var(--gutter-sm) + var(--grid-page-gutters));
-    --flex-child__wide-gutters: var(--flex-child__content-gutters);
+    /* Rows for header, main and footer */
+    --grid-rows: [full-start header-start] auto [header-end content-start] 1fr [content-end footer-start] auto
+      [footer-end full-end];
 
     /* Ensure gutter columns 6% of viewport on either side or equivalent of margin: auto */
-    --grid-page-gutters: calc(max(6dvi, calc(50dvi - var(--wide-size) / 2)) - var(--gutter-sm));
-    /* --grid-page-gutters: minmax(6dvi, 1fr); */
+    --grid-page-gutters: max(6dvi, calc(50dvi - var(--content-size) / 2 - var(--gutter, 1rem)));
 
     /* Wide size uses extra column when viewport is larger than the content size using following media query */
-    --wide-template-columns: [sidebar-start wide-start col-start] 1fr [col-end content-start]
-      repeat(3, [col-start] 1fr [col-end]) [sidebar-end main-start wide-start] repeat(7, [col-start] 1fr [col-end])
-      [main-end content-end col-start] 1fr [col-end wide-end];
+    --wide-template-columns: [sidebar-start wide-start col-start] minmax(0, 1fr) [col-end content-start]
+      repeat(3, [col-start] minmax(0, 1fr) [col-end]) [sidebar-end main-start wide-start]
+      repeat(7, [col-start] minmax(0, 1fr) [col-end]) [main-end content-end col-start] minmax(0, 1fr) [col-end wide-end];
 
-    --content-template-columns: [wide-start content-start sidebar-start] repeat(4, [col-start] 1fr [col-end])
-      [sidebar-end main-start] repeat(8, [col-start] 1fr [col-end]) [main-end content-end wide-end];
+    --content-template-columns: [wide-start content-start sidebar-start] repeat(4, [col-start] minmax(0, 1fr) [col-end])
+      [sidebar-end main-start] repeat(8, [col-start] minmax(0, 1fr) [col-end]) [main-end content-end wide-end];
 
     --template-columns: var(--content-template-columns);
-
-    --content-template-columns_child: [full-start] 0 [wide-start content-start] 12fr [content-end wide-end] 0 [full-end];
-    --wide-template-columns_child: [full-start] 0 [wide-start] 1fr [content-start] 10fr [content-end] 1fr [ wide-end] 0
-      [full-end];
-
-    --child-template-columns: var(--content-template-columns_child);
-
     /* Expand wide columns out from content columns with large screen width */
     /* The min-width specified here should match with the --content-size property. */
     @media screen and (min-width: 1200px) {
       & {
         --template-columns: var(--wide-template-columns);
-        --flex-child__wide-gutters: calc(var(--flex-child__content-gutters) + var(--wide-col-size));
-        --child-template-columns: var(--wide-template-columns_child);
       }
     }
 
     /* Uses --template-columns property set above to determine column layout */
     grid-template-columns:
-      [full-start header-start footer-start] var(--grid-page-gutters) var(--template-columns)
-      /* changes on screen width */
-      var(--grid-page-gutters) [header-end footer-end full-end];
+      [full-start header-start footer-start]
+      var(--grid-page-gutters)
+      var(--template-columns) /* changes on screen width */
+      var(--grid-page-gutters)
+      [header-end footer-end full-end];
 
-    grid-template-rows: [header-start] auto [header-end content-start wide-start] 1fr [content-end wide-end footer-start] auto [footer-end];
+    grid-template-rows:
+      [header-start] auto
+      [header-end content-start] 1fr
+      [content-end footer-start] auto
+      [footer-end];
 
     /* 
      * TODO DEV: Implement once css style queries are baseline supported, replacing media query
@@ -81,6 +72,14 @@
 
       grid-column: header;
       grid-row: header;
+
+      > *:first-child {
+        grid-column-start: content; /* or wide */
+      }
+
+      > *:last-child {
+        grid-column: span auto / content-end; /* or wide */
+      }
     }
 
     > :where(main, aside, nav) {
@@ -101,10 +100,8 @@
       row-gap: var(--gutter); */
 
     > * {
-      grid-column: content;
-      /* NOTE: default to column. Expand to wide on individual elements. */
+      grid-column: content; /* NOTE: default to column. Expand to wide on individual elements. */
     }
-
     /* } */
   }
 }

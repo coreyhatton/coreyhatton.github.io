@@ -43,7 +43,7 @@
     --gutter-lg: var(--spacing-lg);
 
     /* Ensure that the horizontal screen padding is always at least 6% of the viewport on either side*/
-    --min-content-width: calc(100dvw - calc(6dvw * 2));
+    --min-content-width: calc(100dvi - calc(6dvi * 2));
 
     /* Ensure the content width never goes over the max and never under the min */
     --page-content-width: min(var(--max-content-width), var(--min-content-width));

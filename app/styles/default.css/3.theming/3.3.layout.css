@@ -384,9 +384,8 @@
   [type="checkbox"] {
     position: relative;
     inline-size: fit-content;
-    margin-inline-end: var(--gutter-sm);
-
     cursor: pointer;
+    margin-inline-end: var(--gutter-sm);
 
     label:has(&),
     ~ label {
