@@ -1,0 +1,30 @@
+.socialIcons {
+  display: flex;
+  place-content: center;
+  flex-flow: row wrap;
+
+  gap: var(--spacing-xxs);
+  font-size: var(--fontsize-sm);
+
+  /* Container link */
+  a {
+    text-decoration: none;
+    padding-block: var(--spacing-xs);
+    padding-inline: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    /* background-color: var(--color-primary); */
+    color: var(--text-contrast);
+
+    transition: all 280ms ease-in-out;
+
+    &:hover,
+    &:focus-visible {
+      background-color: color-mix(in oklab, var(--color-contrast), transparent 80%);
+      backdrop-filter: blur(0.5rem);
+    }
+  }
+
+  .socialIcon {
+    place-self: center;
+  }
+}

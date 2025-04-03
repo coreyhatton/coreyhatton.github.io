@@ -1,10 +1,10 @@
-import Nav from "./Nav";
+import Nav from "../Header/Nav";
 import styles from "./style.module.css";
 
-const Main = ({ children }) => {
+const Main = ({ children, ...props }) => {
   return (
-    <main className={styles.main + " bg-pattern"}>
-      <Nav />
+    <main {...props} className={" bg-pattern " + props.className || ""}>
+      {/* <Nav /> */}
       {children || null}
     </main>
   );

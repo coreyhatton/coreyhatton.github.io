@@ -18,10 +18,10 @@
     linear-gradient(
       169deg,
       var(--primary-l2),
-      var(--primary-l1) 6dvh,
-      var(--color-primary) 66dvh,
-      var(--color-primary) 86dvh,
-      var(--primary-d1) 98dvh
+      var(--primary-l1) 6dvb,
+      var(--color-primary) 66dvb,
+      var(--color-primary) 86dvb,
+      var(--primary-d1) 98dvb
     );
   background-color: var(--color-primary);
   border: 2px solid color-mix(in oklab, var(--primary-l4), transparent 20%);
@@ -174,10 +174,10 @@
     linear-gradient(
       169deg,
       var(--primary-l2),
-      var(--primary-l1) 6dvh,
-      var(--color-primary) 66dvh,
-      var(--color-primary) 86dvh,
-      var(--primary-d1) 98dvh
+      var(--primary-l1) 6dvb,
+      var(--color-primary) 66dvb,
+      var(--color-primary) 86dvb,
+      var(--primary-d1) 98dvb
     );
   background-color: var(--color-primary);
   border: 2px solid color-mix(in oklab, var(--primary-l4), transparent 20%);

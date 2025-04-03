@@ -1,7 +1,8 @@
 .main {
   --color-border: var(--color-base);
+  --color-bg: var(--gradient-1);
 
-  flex: 1 1 max(480px, 50%);
+  /* flex: 1 1 max(480px, 50%);
 
   display: grid;
   grid-column: col-start 4 / wide-end;
@@ -18,19 +19,19 @@
   column-gap: var(--gutter);
   padding-block-end: var(--gutter);
 
-  position: relative;
+  position: relative; */
 
-  background: radial-gradient(circle at 20% 66%, var(--color-primary), transparent),
+  /* background: radial-gradient(circle at 20% 66%, var(--color-primary), transparent),
     linear-gradient(
       169deg,
       var(--primary-l2),
-      var(--primary-l1) 6dvh,
-      var(--color-primary) 66dvh,
-      var(--color-primary) 86dvh,
-      var(--primary-d1) 98dvh
+      var(--primary-l1) 6dvb,
+      var(--color-primary) 66dvb,
+      var(--color-primary) 86dvb,
+      var(--primary-d1) 98dvb
     );
 
-  background-color: var(--color-primary);
+  background-color: var(--color-primary); */
   border: 2px solid color-mix(in oklab, var(--primary-l4), transparent 20%);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);

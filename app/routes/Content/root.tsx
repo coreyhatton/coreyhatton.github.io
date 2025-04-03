@@ -5,7 +5,7 @@ import MainContent from "./MainContent";
 export function Content(props) {
   return (
     <>
-      <section className={`${styles.main}`} {...props}>
+      <section {...props}>
         <MainContent />
         <p>... more coming soon!</p>
       </section>

@@ -2,24 +2,54 @@
 
 :root,
 ::backdrop {
+  /* Fix for moving background image when scrollbar appears */
   @supports not (overflow-block: scroll) {
-    overflow-y: scroll;
+    & {
+      overflow-y: scroll;
+    }
   }
-
   overflow-block: scroll;
   scrollbar-gutter: stable;
+
+  --border-width: 4px;
 }
 
 .bg-full::before {
   content: "";
   position: fixed;
-  inline-size: 100%;
-  block-size: 100dvh;
-  z-index: -2;
+  inset: 0;
+  z-index: -999;
 
   background: url("./assets/beach.jpg") no-repeat 0% 90% / cover fixed;
   background-color: var(--color-primary);
   filter: brightness(0.7);
+}
+
+.skyline-ex {
+  fill: var(--primary-l4);
+}
+
+.root,
+#root {
+  display: grid;
+  gap: var(--gutter-sm);
+}
+
+.blur {
+  position: relative;
+}
+
+.blur::after {
+  content: "";
+  position: absolute;
+  inset: 0 calc(var(--gutter) * -1);
+
+  grid-column: wide;
+
+  backdrop-filter: blur(10px) brightness(0.8);
+  z-index: -999;
+
+  border-radius: var(--border-radius);
 }
 
 .copyright {

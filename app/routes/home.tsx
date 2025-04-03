@@ -4,11 +4,11 @@ import { Content } from "./Content/root";
 import Sidebar from "~/components/Sidebar";
 import Main from "~/components/Main";
 
-import Duo from "./Duo";
+import Page from "./simple";
 
 import styles from "./styles.module.css";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Corey Hatton | Portfolio" },
     {
@@ -36,7 +36,7 @@ const Home = () => {
 export default function duo() {
   return (
     <>
-      <Duo />
+      <Page />
     </>
   );
 }
