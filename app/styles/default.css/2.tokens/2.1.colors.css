@@ -124,6 +124,90 @@
     --accent-d2: oklch(from var(--color-accent) var(--d2-calc));
     --accent-d3: oklch(from var(--color-accent) var(--d3-calc));
     --accent-d4: oklch(from var(--color-accent) var(--d4-calc));
+
+    --primary-base: color-mix(in oklab, var(--color-primary) 30%, var(--color-base));
+    --secondary-base: color-mix(in oklab, var(--color-secondary) 30%, var(--color-base));
+    --tertiary-base: color-mix(in oklab, var(--color-tertiary) 30%, var(--color-base));
+    --accent-base: color-mix(in oklab, var(--color-accent) 30%, var(--color-base));
+
+    --gradient-1:
+      radial-gradient(at 100% 100%, var(--primary-l1) 0px, transparent 80%),
+      radial-gradient(at 21% 93%, var(--primary-l1) 0px, transparent 50%),
+      radial-gradient(at 38% 67%, var(--tertiary-l1) 0px, transparent 50%),
+      radial-gradient(at 56% 36%, var(--secondary-l1) 0px, transparent 50%),
+      radial-gradient(at 72% 61%, var(--accent-l2) 0px, transparent 50%),
+      radial-gradient(at 33% 38%, var(--tertiary-l2) 0px, transparent 50%),
+      radial-gradient(at 80% 47%, var(--secondary-l2) 0px, transparent 50%), var(--color-primary);
+
+    --gradient-2:
+      radial-gradient(at 100% 100%, var(--primary-l4) 0px, transparent 50%),
+      radial-gradient(at 21% 81%, var(--tertiary-l2) 0px, transparent 50%),
+      radial-gradient(at 56% 36%, var(--secondary-l2) 0px, transparent 50%),
+      radial-gradient(at 72% 61%, var(--accent-l3) 0px, transparent 50%),
+      radial-gradient(at 33% 38%, var(--tertiary-l3) 0px, transparent 50%),
+      radial-gradient(at 80% 47%, var(--secondary-l3) 0px, transparent 50%),
+      radial-gradient(at 27% 54%, var(--primary-l3) 0px, transparent 50%), var(--color-secondary);
+
+    --gradient-3:
+      radial-gradient(at 100% 100%, var(--accent-l4) 0px, transparent 50%),
+      radial-gradient(at 21% 81%, var(--tertiary-l4) 0px, transparent 50%),
+      radial-gradient(at 56% 36%, var(--secondary-l4) 0px, transparent 50%),
+      radial-gradient(at 72% 61%, var(--primary-l3) 0px, transparent 50%),
+      radial-gradient(at 33% 38%, var(--tertiary-l3) 0px, transparent 50%),
+      radial-gradient(at 80% 47%, var(--secondary-l3) 0px, transparent 50%),
+      radial-gradient(at 27% 54%, var(--primary-l3) 0px, transparent 50%), var(--color-tertiary);
+
+    --gradient-light-dark:
+      radial-gradient(circle at 28% 84%, var(--color-primary) 23%, transparent 100%),
+      linear-gradient(
+        169deg,
+        var(--primary-l2),
+        var(--primary-l1) 6%,
+        var(--color-primary) 66%,
+        var(--color-primary) 76%,
+        var(--primary-d1) 98%
+      );
+
+    --gradient-light-dark-equal:
+      radial-gradient(circle at 28% 84%, var(--color-primary) 23%, transparent 100%),
+      linear-gradient(
+        169deg,
+        var(--primary-l2),
+        var(--primary-l1) 6dvh,
+        var(--color-primary) 66dvh,
+        var(--color-primary) 76dvh,
+        var(--primary-d1) 98dvh
+      );
+
+    --gradient-dark-light:
+      radial-gradient(circle at 84% 28%, var(--color-primary) 23%, transparent 100%),
+      linear-gradient(
+        -169deg,
+        var(--primary-l2),
+        var(--primary-l1) 6%,
+        var(--color-primary) 66%,
+        var(--color-primary) 76%,
+        var(--primary-d1) 98%
+      );
+
+    --gradient-1-filter: blur(60px) saturate(1.33);
+
+    --bg-centre-lighten: radial-gradient(
+      ellipse at center,
+      color-mix(in srgb, var(--color-base), transparent 90%) 0%,
+      color-mix(in srgb, var(--color-base), transparent 95%) 40%,
+      transparent 100%
+    );
+
+    --gradient-2-filter: blur(60px) saturate(1.5);
+    --gradient-3-filter: blur(60px) saturate(1.5);
+
+    /* --bg-vignette: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      color-mix(in oklab, var(--color-contrast), transparent 90%) 80%,
+      color-mix(in oklab, var(--color-contrast), transparent 80%) 100%
+    ); */
   }
 
   :root,
