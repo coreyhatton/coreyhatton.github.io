@@ -13,6 +13,8 @@ import favicon from "~/assets/favicon.png";
 import background from "~/assets/beach.jpg";
 import { Icon } from "@iconify/react";
 
+import gridStyles from "./grid.module.css";
+
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -52,11 +54,10 @@ export function Layout({ children }: { children?: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div id="root" className="bg-full">
+        <div id="root" className={`bg-full ${gridStyles.gridLayout}`}>
           {children}
-          <p className="copyright">{`©Corey Hatton ${new Date().getFullYear()}`}</p>
+          {/* <p className="copyright">{`©Corey Hatton ${new Date().getFullYear()}`}</p> */}
         </div>
-
         <ScrollRestoration />
         <Scripts />
       </body>
