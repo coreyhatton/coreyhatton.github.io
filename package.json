@@ -5,8 +5,7 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc",
+    "preview": "vite preview",
     "lint": "eslint .",
     "lint:css": "eslint ./{src,app}/**/*.css",
     "lint:js": "eslint ./{src,app}/**/*.{js,jsx,ts,tsx}"
