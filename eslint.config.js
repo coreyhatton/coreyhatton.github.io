@@ -2,25 +2,25 @@
 import css from "@eslint/css";
 
 import js from "@eslint/js";
-import tsLint from "typescript-eslint";
+import tsEslint from "typescript-eslint";
 import globals from "globals";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 
-// @todo change to eslint's defineConfig function
+// @todo change to eslint's defineConfig function when supported
 // @see https://github.com/typescript-eslint/typescript-eslint/issues/10934
-export default tsLint.config([
+export default tsEslint.config([
   {
     ignores: ["**/{dist,build,node_modules}/*", "**/*.config.*"],
   },
   {
     files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
-    extends: [js.configs.recommended, tsLint.configs.recommendedTypeChecked],
+    extends: [js.configs.recommended, tsEslint.configs.recommendedTypeChecked],
     ignores: ["**/*.{css}"],
     languageOptions: {
       ecmaVersion: "latest",
       globals: { ...globals.browser },
-      parser: tsLint.parser,
+      parser: tsEslint.parser,
       parserOptions: {
         ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
@@ -33,13 +33,14 @@ export default tsLint.config([
     plugins: {
       react,
       "react-hooks": reactHooks,
-      "@typescript-eslint": tsLint.plugin,
+      "@typescript-eslint": tsEslint.plugin,
     },
     rules: {
       ...react.configs.recommended.rules,
       ...react.configs["jsx-runtime"].rules,
       ...reactHooks.configs.recommended.rules,
       "react/jsx-no-target-blank": "off",
+      "@typescript-eslint/no-namespace": "off",
     },
   },
   {
