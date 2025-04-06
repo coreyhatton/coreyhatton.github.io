@@ -1,6 +1,6 @@
 import Socials from "~/components/Socials";
-import styles from "./styles.module.css";
-import portrait from "~/assets/portrait.png";
+import styles from "./hero.module.css";
+// import portrait from "~/assets/portrait.png";
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;

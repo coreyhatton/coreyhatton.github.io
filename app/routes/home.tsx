@@ -1,42 +1,19 @@
-import type { Route } from "./+types/home";
-
-import { Content } from "./Content/root";
-import Sidebar from "~/components/Sidebar";
-import Main from "~/components/Main";
-
-import Page from "./simple";
-
-import styles from "./styles.module.css";
-
-export function meta() {
-  return [
-    { title: "Corey Hatton | Portfolio" },
-    {
-      name: "description",
-      content: "Corey Hatton | Communications | Marketing | Digital",
-    },
-    { name: "robots", content: "index, follow" },
-    { name: "theme-color", content: "#007a7c" },
-  ];
-}
+import { Outlet } from "react-router";
+import Hero from "~/components/Hero";
+import BgPattern from "~/components/Graphics/bgPattern";
 
 const Home = () => {
   return (
     <>
-      <div className={styles.container}>
-        <Sidebar />
-        <Main>
-          <Content style={{ gridArea: "content" }} />
-        </Main>
-      </div>
+      <Hero />
+      <Outlet />
+      <BgPattern
+        position="bottom right"
+        maxBlockSize={"80%"}
+        maxInlineSize={"33%"}
+      />
     </>
   );
 };
 
-export default function duo() {
-  return (
-    <>
-      <Page />
-    </>
-  );
-}
+export default Home;

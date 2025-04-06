@@ -1,0 +1,16 @@
+@layer components.graphics {
+  .bgPattern {
+    position: absolute;
+    overflow: hidden;
+    pointer-events: none;
+    fill: var(--color-base);
+    grid-column: unset;
+    z-index: -1;
+  }
+
+  /* Apply to elements that have a child with the .bgPattern class with 0 specificity 
+  so that it doesn't override e.g. position sticky */
+  :where(*:has(> .bgPattern)) {
+    position: relative;
+  }
+}

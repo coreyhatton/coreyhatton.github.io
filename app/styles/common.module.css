@@ -1,0 +1,16 @@
+.blur {
+  position: relative;
+}
+
+.blur::after {
+  content: "";
+  position: absolute;
+  inset: 0 calc(var(--gutter) * -1);
+
+  grid-column: wide;
+
+  backdrop-filter: blur(10px) brightness(0.8);
+  z-index: -999;
+
+  border-radius: var(--border-radius);
+}

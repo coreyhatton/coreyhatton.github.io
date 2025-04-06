@@ -5,12 +5,11 @@ import { Header } from "~/components/Header";
 import Nav from "~/components/Header/Nav";
 
 import Main from "~/components/Main";
-import { Content } from "./Content/root";
 
 import icon from "~/assets/favicon.png";
-import Hero from "./Hero";
+import Hero from "~/components/Hero";
 
-export function meta() {
+export const meta = () => {
   return [
     { title: "Corey Hatton | Portfolio" },
     {
@@ -20,9 +19,9 @@ export function meta() {
     { name: "robots", content: "index, follow" },
     { name: "theme-color", content: "#007a7c" },
   ];
-}
+};
 
-export default function Home() {
+export const Home = () => {
   const navLinks = [
     {
       to: "/",
@@ -63,7 +62,6 @@ export default function Home() {
     opacity: 0.05,
     gridColumn: "unset",
     zIndex: -1,
-    // placeSelf: "end end",
     transformOrigin: "center",
     transform: "rotateY(180deg)",
   } as React.CSSProperties;
@@ -89,7 +87,7 @@ export default function Home() {
         siteLogo={icon}
         siteTitle="Corey Hatton"
         siteTagline="Communications | Marketing | Digital"
-        className={styles.linearGradientBg + " " + styles.blur}
+        className={`${styles.linearGradientBg} ${styles.blur}`}
       >
         {<Nav navLinks={navLinks} featureButton={featureButton} />}
       </Header>
@@ -102,10 +100,10 @@ export default function Home() {
         `}
       >
         <Hero />
-        {/* <Content /> */}
         {svg}
       </Main>
     </>
   );
-}
-// ${styles.linearGradientBg2}
+};
+
+export default Home;

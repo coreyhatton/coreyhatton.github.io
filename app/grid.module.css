@@ -1,4 +1,4 @@
-@layer theming.grid {
+@layer layouts.grid {
   /* --------- BODY LAYOUT --------- */
   .gridLayout {
     display: grid;

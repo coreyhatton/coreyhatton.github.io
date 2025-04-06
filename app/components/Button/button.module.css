@@ -1,0 +1,111 @@
+@layer components.button {
+  .main {
+    --bg-color: var(--color-primary, aliceblue);
+    --bg-mix-lighten-1: color-mix(in oklab, var(--bg-color) 85%, white);
+    --bg-mix-lighten-2: color-mix(in oklab, var(--bg-color) 70%, white);
+    --bg-hover: var(--primary-l1, --bg-mix-lighten-1);
+    --bg-active: var(--primary-l2, --bg-mix-lighten-2);
+
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: unset;
+
+    color: var(--text-contrast);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+
+    background-color: var(--bg-color);
+
+    transition: all 200ms ease-in-out;
+
+    &:hover:not(.shine) {
+      background-color: var(--bg-hover);
+    }
+
+    &.isPressed {
+      background-color: var(--bg-active);
+    }
+  }
+
+  :where(.outline) {
+    position: relative;
+  }
+
+  .outline {
+    mask:
+      linear-gradient(black 0 0) 0 0 / 100% 100% add,
+      linear-gradient(black 0 0) 2px 2px / 100% 100% exclude;
+  }
+
+  .primary {
+    --bg-color: var(--color-primary, currentColor);
+    --bg-hover: var(--primary-l1, --bg-mix-lighten-1);
+  }
+
+  .secondary {
+    --bg-color: var(--color-secondary, currentColor);
+    --bg-hover: var(--secondary-l1, --bg-mix-lighten-1);
+  }
+
+  .tertiary {
+    --bg-color: var(--color-tertiary);
+    --bg-hover: var(--tertiary-l1, --bg-mix-lighten-1);
+  }
+
+  .accent {
+    --bg-color: var(--color-accent);
+    --bg-hover: var(--accent-l1, --bg-mix-lighten-1);
+  }
+
+  .icon {
+    --bg-color: transparent;
+    --bg-hover: transparent;
+    border: unset;
+    block-size: max-content;
+    align-self: center;
+  }
+
+  .isRounded {
+    border-radius: var(--border-radius, 0.5rem); /* matches spacing */
+  }
+
+  .shine {
+    background: linear-gradient(
+      147deg,
+      var(--bg-color) 0%,
+      var(--bg-hover) 51%,
+      var(--bg-color) 80%,
+      var(--bg-hover) 100%
+    );
+    background-size: 200% 600%;
+    background-position: left top;
+
+    transition: all 380ms ease-in-out;
+  }
+
+  .shine:hover {
+    background-position: right bottom;
+    box-shadow: 0px 0px 12px 2px color-mix(in oklab, var(--color-base, white), transparent 80%);
+  }
+
+  .featureBtn {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+
+    color: var(--text-contrast);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--accent-l1);
+    }
+
+    &:active {
+      background-color: var(--accent-l2);
+    }
+  }
+}

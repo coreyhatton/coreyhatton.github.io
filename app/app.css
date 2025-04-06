@@ -1,3 +1,4 @@
+@layer defaultCss, layouts, components, utilities;
 @import url("./styles/default.css/style.css");
 
 :root,

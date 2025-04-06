@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import styles from "./Header.module.css";
+import { Button } from "../Button";
 
 interface NavProps {
   navLinks: { to: string; label: string }[];
@@ -23,17 +24,10 @@ export const Nav = ({ navLinks, featureButton, ...props }: NavProps) => {
         ))}
         {featureButton && (
           <li key="featureButton">
-            <Link
-              {...featureButton}
-              key={"featureButton"}
-              to={featureButton.to}
-              className={`${styles.featureBtn} ${styles.btnGradient} ${
-                featureButton.className || ""
-              }`}
-            >
+            <Button isRounded variant="accent" asLink effect="shine" outline>
               {featureButton.label}
               {featureButton.children}
-            </Link>
+            </Button>
           </li>
         )}
       </ul>
