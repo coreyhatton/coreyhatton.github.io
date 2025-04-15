@@ -1,197 +1,221 @@
-.main {
-  --header-bg: var(--gradient-1);
+@layer components.header {
+  .main {
+    --header-bg: var(--gradient-1);
 
-  position: sticky;
-  top: 0;
-  display: flex;
-  grid-column: wide;
-  grid-row: header;
-  flex-direction: row;
-  gap: var(--gutter-sm);
+    container: header / inline-size;
 
-  place-content: space-between;
-  place-items: center stretch;
+    /* position: sticky; */
+    z-index: 1;
+    inset-block-start: 0;
+    display: flex;
+    grid-column: wide;
+    grid-row: header;
+    flex-direction: row;
+    gap: var(--gutter-sm);
 
-  /*  Aligns with content column where wide = + 1 col */
-  /* padding-inline: calc(100% / 12); */
+    place-content: space-between;
+    place-items: center stretch;
 
-  padding-inline: var(--gutter);
-  padding-block: var(--spacing-sm);
+    /*  Aligns with content column where wide = + 1 col */
+    /* padding-inline: calc(100% / 12); */
 
-  border: var(--border-width) solid var(--primary-l4);
-  border-radius: var(--border-radius);
+    padding-inline: var(--gutter);
+    padding-block: var(--spacing-sm);
 
-  border-top: unset;
-  border-start-start-radius: unset;
-  border-start-end-radius: unset;
-  box-shadow: var(--shadow);
+    border: var(--border-width) solid var(--primary-l4);
+    border-radius: var(--border-radius);
 
-  color: var(--text-contrast);
+    border-block-start: unset;
+    border-start-start-radius: unset;
+    border-start-end-radius: unset;
+    box-shadow: var(--shadow);
 
-  /* background-color: var(--header-bg); */
-  /* background: var(--header-bg); */
+    color: var(--text-contrast);
 
-  .icon {
-    max-block-size: 2lh;
-    grid-area: icon;
+    /* background-color: var(--header-bg); */
+    /* background: var(--header-bg); */
 
-    box-shadow: 1px 1px 4px 1px color-mix(in oklab, var(--gray-d2), transparent 70%);
-  }
+    /* Hide header on scroll-up */
 
-  .title {
-    grid-area: title;
-  }
+    .icon {
+      max-block-size: 2lh;
+      grid-area: icon;
 
-  .subtitle {
-    grid-area: subtitle;
-  }
-
-  hgroup {
-    display: grid;
-    grid-template: "icon vr title" "icon vr subtitle" / auto auto;
-
-    flex-wrap: wrap;
-    flex-direction: column;
-
-    flex: 0 1 fit-content;
-
-    column-gap: var(--spacing-xs);
-
-    text-decoration: none;
-
-    place-items: center;
-
-    .vr {
-      grid-area: vr;
-      place-self: center;
-      block-size: 95%;
-      inline-size: 5px;
-      background-color: var(--color-base);
-      background: linear-gradient(90deg, transparent 3px, var(--color-base) 3px);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
+      box-shadow: 1px 1px 4px 1px color-mix(in oklab, var(--gray-d2), transparent 70%);
     }
 
     .title {
-      font-size: var(--fontsize-lg);
-      text-transform: uppercase;
-      place-self: end start;
-    }
-  }
-
-  :where(h1, h1 + p) {
-    margin-block: unset;
-    color: var(--text-contrast);
-    line-height: var(--line-height-condensed);
-  }
-
-  h1 {
-    font-size: var(--fontsize-lg);
-  }
-
-  h1 + p {
-    place-self: start start;
-
-    font-size: var(--fontsize-sm);
-    line-height: var(--line-height-condensed);
-  }
-
-  nav {
-    flex: 1 1 auto;
-    color: var(--text-contrast);
-
-    a {
-      color: inherit;
+      grid-area: title;
     }
 
-    .menu,
-    .submenu {
+    .subtitle {
+      grid-area: subtitle;
+    }
+
+    hgroup {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(8ch, auto));
-      flex: 1 1 max-content;
-      gap: var(--spacing-xxs);
-      place-content: center flex-end;
-      place-items: center stretch;
-      text-align: center;
+      grid-template: "icon vr title" "icon vr subtitle" / auto auto;
 
-      padding-inline: 0;
-      list-style: none;
-      font-size: var(--fontsize-md);
+      flex-wrap: wrap;
+      flex-direction: column;
 
-      .menuItem {
-        position: relative;
-        padding: var(--spacing-xs);
-        border-radius: var(--border-radius);
-        flex: 1 0 min-content;
+      flex: 0 1 fit-content;
 
-        transition: all 280ms ease-in-out;
+      column-gap: var(--spacing-xs);
+
+      text-decoration: none;
+
+      place-items: center;
+
+      .vr {
+        grid-area: vr;
+        place-self: center;
+        block-size: 95%;
+        inline-size: 5px;
+        background-color: var(--color-base);
+        background: linear-gradient(90deg, transparent 3px, var(--color-base) 3px);
       }
 
-      .menuItem,
-      .submenu__item {
-        background-color: transparent;
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-        &:hover,
-        &:focus-within {
-          background-color: color-mix(in oklab, var(--color-contrast), transparent 80%);
-          backdrop-filter: blur(0.5rem);
+      .title {
+        font-size: var(--fontsize-lg);
+        text-transform: uppercase;
+        place-self: end start;
+      }
+    }
+
+    :where(h1, h1 + p) {
+      margin-block: unset;
+      color: var(--text-contrast);
+      line-height: var(--line-height-condensed);
+    }
+
+    h1 {
+      font-size: var(--fontsize-lg);
+    }
+
+    h1 + p {
+      place-self: start start;
+
+      font-size: var(--fontsize-sm);
+      line-height: var(--line-height-condensed);
+    }
+
+    ._nav {
+      flex: 1 1 auto;
+      color: var(--text-contrast);
+
+      a {
+        color: inherit;
+      }
+
+      .menu,
+      .submenu {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(8ch, auto));
+        flex: 1 1 max-content;
+        gap: var(--spacing-xxs);
+        place-content: center flex-end;
+        place-items: center stretch;
+        text-align: center;
+
+        padding-inline: 0;
+        list-style: none;
+        font-size: var(--fontsize-md);
+
+        .menuItem {
+          position: relative;
+          padding: var(--spacing-xs);
+          border-radius: var(--border-radius);
+          flex: 1 0 min-content;
 
           transition: all 280ms ease-in-out;
         }
+
+        .menuItem,
+        .submenu__item {
+          background-color: transparent;
+
+          &:where(:hover, :focus-within) {
+            background-color: color-mix(in oklab, var(--color-contrast), transparent 80%);
+            /* backdrop-filter: blur(0.5rem); */
+
+            transition: all 280ms ease-in-out;
+          }
+        }
+
+        /* Stretched link */
+        .menuItem:not(.disabled) > a::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 1;
+          cursor: pointer;
+        }
       }
 
-      /* Stretched link */
-      .menuItem > a::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-        cursor: pointer;
-      }
-    }
+      :where(.menuItem.disabled, .menuItem.disabled > a):where(&, :hover, :focus-within) {
+        cursor: not-allowed;
 
-    .btnGradient {
-      background-image: linear-gradient(
-        147deg,
-        var(--color-accent) 0%,
-        var(--accent-l1) 51%,
-        var(--color-accent) 80%,
-        var(--accent-l1) 100%
-      );
-      background-size: 200% 600%;
-      background-position: left top;
-
-      transition: all 380ms ease-in-out;
-    }
-
-    .btnGradient:hover {
-      background-position: right bottom;
-      box-shadow: 0px 0px 12px 2px color-mix(in oklab, var(--primary-l4), transparent 80%);
-    }
-
-    .featureBtn {
-      display: inline-block;
-      padding: var(--spacing-xs) var(--spacing-sm);
-      border-radius: var(--border-radius);
-
-      color: var(--text-contrast);
-      text-align: center;
-      text-decoration: none;
-      font-weight: 600;
-
-      &:hover,
-      &:focus-visible {
-        background-color: var(--accent-l1);
+        &:where(:hover, :focus-within) {
+          color: var(--text-disabled);
+        }
       }
 
-      &:active {
-        background-color: var(--accent-l2);
+      .menuItem.disabled:where(&, & > a):where(:hover, :focus-within) {
+        color: var(--text-disabled);
+      }
+
+      .btnGradient {
+        background-image: linear-gradient(
+          147deg,
+          var(--color-accent) 0%,
+          var(--accent-l1) 51%,
+          var(--color-accent) 80%,
+          var(--accent-l1) 100%
+        );
+        background-size: 200% 600%;
+        background-position: left top;
+
+        transition: all 380ms ease-in-out;
+      }
+
+      .btnGradient:hover {
+        background-position: right bottom;
+        box-shadow: 0px 0px 12px 2px color-mix(in oklab, var(--primary-l4), transparent 80%);
+      }
+
+      .featureBtn {
+        display: inline-block;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--border-radius);
+
+        color: var(--text-contrast);
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover,
+        &:focus-visible {
+          background-color: var(--accent-l1);
+        }
+
+        &:active {
+          background-color: var(--accent-l2);
+        }
+      }
+
+      @media screen and (inline-size < 865px) {
+        .menu {
+          display: none;
+        }
       }
     }
   }
