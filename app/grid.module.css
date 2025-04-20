@@ -1,5 +1,13 @@
 @layer layouts.grid {
   /* --------- BODY LAYOUT --------- */
+  :global :root,
+  :global ::backdrop {
+    /* Achieves WCAG 2.1: Reflow (SC 1.4.10)
+      @see https://www.w3.org/TR/WCAG21/#reflow 
+    */
+    min-inline-size: 320px;
+  }
+
   .gridLayout {
     display: grid;
     gap: var(--gutter, 1rem);
@@ -63,7 +71,7 @@
       [header-end content-start wide-start] 1fr
       [content-end wide-end footer-start] auto [footer-end];
 
-    :where(header, footer):not(main header, main footer) {
+    /* :where(header, footer):not(main header, main footer) {
       display: grid;
       grid-template-columns: subgrid;
 
@@ -73,19 +81,19 @@
       &:where(footer) {
         grid-area: footer;
       }
-    }
+    } */
 
-    > :where(main, aside, nav) {
+    /* > :where(main, aside, nav) {
       grid-column: content;
       grid-row: content;
-    }
-
+    } */
+    /* 
     > aside ~ main {
       grid-column: main;
-    }
+    } */
 
     > * {
-      grid-column: content;
+      /* grid-column: content; */
       /* NOTE: default to column. Expand to wide on individual elements. */
     }
   }

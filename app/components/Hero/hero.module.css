@@ -1,78 +1,152 @@
-.hero {
-  flex-wrap: wrap;
-  gap: var(--gutter);
+@layer components.hero {
+  .hero {
+    flex-wrap: wrap;
+    gap: var(--gutter);
 
-  display: inline-flex;
+    display: inline-flex;
 
-  flex-direction: row;
-  place-items: stretch;
-  place-content: space-around;
+    flex-direction: row;
+    place-items: stretch;
+    place-content: space-around;
 
-  container: hero / inline-size;
-  max-inline-size: 100%;
-  inline-size: 100%;
+    container: hero / inline-size;
+    max-inline-size: 100%;
+    inline-size: 100%;
 
-  .imgContainer,
-  figure {
-    flex: 1 0 min-content;
+    .imgContainer {
+      flex: 1 0 min-content;
+      place-content: center;
+    }
+
+    > img,
+    .img {
+      border-radius: var(--border-radius);
+      object-fit: cover;
+      object-position: center;
+
+      border: var(--spacing-sm) solid var(--color-accent);
+
+      flex: 0 1 336px;
+      min-inline-size: 100px;
+
+      rotate: -2deg;
+      transform-origin: center center;
+      scale: 0.9;
+
+      filter: drop-shadow(3px 2px 4px rgba(0, 0, 0, 0.4));
+    }
+  }
+
+  .content {
+    display: flex;
+    container: contents / inline-size;
+    flex-direction: column;
+    flex: 1 1 44cqi;
     place-content: center;
+    place-items: start;
+
+    gap: var(--spacing-sm);
   }
 
-  > img,
-  .img {
-    border-radius: var(--border-radius);
-    object-fit: cover;
-    object-position: center;
-
-    border: var(--spacing-sm) solid var(--color-accent);
-
-    flex: 0 1 336px;
-    min-inline-size: 100px;
-
-    rotate: -2deg;
-    transform-origin: center center;
-    scale: 0.9;
-
-    filter: drop-shadow(3px 2px 4px rgba(0, 0, 0, 0.4));
+  .heroText {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
   }
-}
 
-.content {
-  display: flex;
-  container: contents / inline-size;
-  flex-direction: column;
-  flex: 1 1 44cqi;
-  place-content: center;
-  place-items: start;
-
-  gap: var(--spacing-sm);
-}
-
-.heroText {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-/* .socials {
+  /* .socials {
     padding-block-start: var(--spacing-xs);
     border-block-start: 2px solid var(--color-base);
   } */
 
-.divider {
-  max-inline-size: 100%;
-  inline-size: 24ch;
-  margin-inline: unset;
-}
+  .divider {
+    max-inline-size: 100%;
+    inline-size: 24ch;
+    margin-inline: unset;
+  }
 
-.imgContainer {
-  flex: 1 0 min-content;
-  place-content: center;
-}
+  .imgContainer {
+    flex: 1 0 min-content;
+    place-content: center;
+  }
 
-@container contents (inline-size > 90cqi) {
-  .content > * {
-    place-self: center;
-    text-align: center;
+  @container contents (inline-size > 90cqi) {
+    .content > * {
+      place-self: center;
+      text-align: center;
+    }
+  }
+
+  .shine {
+    --bg-mix-lighten-1: color-mix(in oklab, var(--bg-color) 85%, white);
+    --bg-mix-lighten-2: color-mix(in oklab, var(--bg-color) 70%, white);
+    --bg-hover: var(--color-accent, currentColor);
+    --bg-color: var(--accent-l1, --bg-mix-lighten-1);
+
+    background:
+      linear-gradient(147deg, var(--bg-color) 33%, var(--bg-hover) 51%, var(--bg-color) 100%) no-repeat,
+      linear-gradient(var(--bg-color) 0 0) 0 0 / 400% 1200%;
+    background-size:
+      200% 600%,
+      400% 1200%;
+    background-position: -100% top;
+
+    transition: all 380ms ease-in-out;
+  }
+
+  .shine.text {
+    background-clip: text;
+    color: transparent;
+  }
+
+  :has(> .shine):hover > .shine {
+    background-position: 100% bottom;
+  }
+
+  .textShine {
+    --text-base-color: var(--text-contrast, white);
+    --text-effect-color: var(--accentl3, red);
+
+    --delay-repeat: 1;
+    --repeat-gap: calc(1 + var(--delay-repeat));
+
+    /* ensure first gradient color stop is at > 33% so it is base color when bg-position is 0 */
+    --start-stop: 33%;
+    --end-stop: max(100%, calc(var(--start-stop) + 1%));
+    --mid-stop: 66%;
+
+    /* --repeat-delay: calc(100% )  */
+
+    background-color: var(--text-base-color);
+
+    /* 200% is when it leaves the container (hidden from 200%-300%) */
+    --bg-size: calc(200% * var(--repeat-gap));
+
+    background:
+      linear-gradient(
+          -85deg,
+          transparent var(--start-stop),
+          var(--text-effect-color) var(--mid-stop),
+          transparent var(--end-stop)
+        )
+        no-repeat 0 0 / 300% 100%,
+      linear-gradient(var(--text-base-color) 0 0) 0 0 / var(--bg-size) 100%;
+
+    --animation-duration: 25ms;
+    --animation-delay: calc(1000ms * var(--repeat-gap));
+    /* --animation-duration: 1000ms; */
+    background-clip: text;
+    animation: textShine calc(var(--animation-duration) + var(--animation-delay)) linear forwards infinite;
+    color: transparent;
+  }
+
+  @keyframes textShine {
+    from {
+      background-position: -50% 0;
+    }
+
+    to {
+      background-position: var(--bg-size) 0;
+    }
   }
 }

@@ -165,7 +165,7 @@
   }
 
   /* LINKS & BUTTONS **********************/
-  button,
+  /* button,
   .button,
   a.button,
   [role="button"],
@@ -258,7 +258,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--gutter-sm);
-  }
+  } */
 
   /* Temp fix - @dev not sure why nesting selector is not working for ::file-selector-button */
   input::file-selector-button {
@@ -315,6 +315,7 @@
 
     overflow-x: auto;
     scrollbar-width: thin;
+
     @supports (scrollbar-color: var(--color-accent) transparent) {
       scrollbar-color: var(--color-accent) transparent;
     }

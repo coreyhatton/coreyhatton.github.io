@@ -1,8 +1,9 @@
-.main {
-  --color-border: var(--color-base);
-  --color-bg: var(--gradient-1);
+@layer components.main {
+  .main {
+    --color-border: var(--color-base);
+    --color-bg: var(--gradient-1);
 
-  /* flex: 1 1 max(480px, 50%);
+    /* flex: 1 1 max(480px, 50%);
 
   display: grid;
   grid-column: col-start 4 / wide-end;
@@ -21,7 +22,7 @@
 
   position: relative; */
 
-  /* background: radial-gradient(circle at 20% 66%, var(--color-primary), transparent),
+    /* background: radial-gradient(circle at 20% 66%, var(--color-primary), transparent),
     linear-gradient(
       169deg,
       var(--primary-l2),
@@ -32,91 +33,92 @@
     );
 
   background-color: var(--color-primary); */
-  border: 2px solid color-mix(in oklab, var(--primary-l4), transparent 20%);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-}
 
-.content {
-  display: flex;
-  flex-direction: column;
-  grid-area: content;
-  gap: var(--spacing-md);
-}
-
-.header {
-  display: flex;
-  padding-inline: var(--gutter);
-  padding-block: var(--spacing-xxs);
-
-  grid-area: header;
-  place-items: center flex-end;
-  inline-size: max-content;
-  place-self: end;
-
-  gap: var(--gutter);
-
-  color: var(--text-contrast);
-  background-color: var(--primary-d1);
-  border-end-start-radius: var(--border-radius);
-  border-start-end-radius: var(--border-radius);
-}
-
-.nav {
-  display: contents;
-
-  a {
-    color: inherit;
+    border: 2px solid color-mix(in oklab, var(--primary-l4), transparent 20%);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
   }
 
-  .menu,
-  .submenu {
+  .content {
     display: flex;
+    flex-direction: column;
+    grid-area: content;
+    gap: var(--spacing-md);
+  }
 
-    padding-inline: 0;
-    column-gap: var(--gutter);
-    row-gap: var(--spacing-xxs);
-    list-style: none;
-    font-size: var(--fontsize-md);
-    text-align: center;
-    align-items: center;
+  .header {
+    display: flex;
+    padding-inline: var(--gutter);
+    padding-block: var(--spacing-xxs);
 
-    .menuItem {
-      position: relative;
-      /* padding-inline: var(--spacing-sm); */
-      padding: var(--spacing-xs);
-      border-radius: var(--border-radius);
-      background-color: var(--primary-d1);
+    grid-area: header;
+    place-items: center flex-end;
+    inline-size: max-content;
+    place-self: end;
 
-      transition: background-color 280ms ease-in-out;
+    gap: var(--gutter);
+
+    color: var(--text-contrast);
+    background-color: var(--primary-d1);
+    border-end-start-radius: var(--border-radius);
+    border-start-end-radius: var(--border-radius);
+  }
+
+  .nav {
+    display: contents;
+
+    a {
+      color: inherit;
     }
 
-    .menuItem,
-    .submenu__item {
-      background-color: transparent;
+    .menu,
+    .submenu {
+      display: flex;
 
-      &:hover,
-      &:focus-within {
-        background-color: color-mix(in oklab, var(--color-base), transparent 70%);
+      padding-inline: 0;
+      column-gap: var(--gutter);
+      row-gap: var(--spacing-xxs);
+      list-style: none;
+      font-size: var(--fontsize-md);
+      text-align: center;
+      align-items: center;
+
+      .menuItem {
+        position: relative;
+        /* padding-inline: var(--spacing-sm); */
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius);
+        background-color: var(--primary-d1);
+
         transition: background-color 280ms ease-in-out;
       }
-    }
 
-    /* Stretched link */
-    .menuItem > a::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 1;
-      cursor: pointer;
+      .menuItem,
+      .submenu__item {
+        background-color: transparent;
+
+        &:hover,
+        &:focus-within {
+          background-color: color-mix(in oklab, var(--color-base), transparent 70%);
+          transition: background-color 280ms ease-in-out;
+        }
+      }
+
+      /* Stretched link */
+      .menuItem > a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        cursor: pointer;
+      }
     }
   }
-}
 
-/* 
+  /* 
 .nav {
     --nav-block-spacing: var(--spacing-xs);
     --color-text-block: var(--text-contrast);
@@ -158,8 +160,8 @@
         color: inherit;
       } */
 
-/* Stretched link */
-/* li > a::before {
+  /* Stretched link */
+  /* li > a::before {
         content: "";
         position: absolute;
         top: 0;
@@ -170,12 +172,12 @@
         cursor: pointer;
       } */
 
-/* With submenu */
-/* &:has(.menu) {
+  /* With submenu */
+  /* &:has(.menu) {
         flex-wrap: wrap; */
 
-/* Arrow icon for top-level menu items */
-/* > li > a::after {
+  /* Arrow icon for top-level menu items */
+  /* > li > a::after {
           content: "";
           display: inline-block;
           translate: 0 0.125em;
@@ -184,19 +186,19 @@
           border-top-color: color-mix(in oklab, var(--color-text-block) 66%, transparent);
         } */
 
-/* & > li > a::before {
+  /* & > li > a::before {
           margin-block-end: calc(0px - var(--spacing-sm));
         }
       } */
 
-/* Submenus / Mouseover nav menu
+  /* Submenus / Mouseover nav menu
        * Note that for the nav menu to be properly accessible according to WCAG, some 
        * Javascript is required for keyboard functionality. @LINK
        */
-/* .submenu { */
-/* visibility: hidden; */
-/* content-visibility: hidden; */
-/* flex-direction: column;
+  /* .submenu { */
+  /* visibility: hidden; */
+  /* content-visibility: hidden; */
+  /* flex-direction: column;
         opacity: 0;
 
         pointer-events: none;
@@ -257,3 +259,4 @@
       }
     }
   } */
+}

@@ -20,15 +20,29 @@ interface BgPosition {
   "center right": string;
 }
 
-interface BgPatternProps extends React.SVGProps<SVGSVGElement> {
+interface BgPropsMain extends React.SVGProps<SVGSVGElement> {
+  id: string;
   full?: boolean;
   flip?: boolean | "horizontal" | "vertical";
   position?: BgPosition[keyof BgPosition];
-  maxInlineSize?: React.CSSProperties["maxInlineSize"];
-  maxBlockSize?: React.CSSProperties["maxBlockSize"];
   opacity?: React.CSSProperties["opacity"];
   color?: React.CSSProperties["color"];
 }
+
+interface BgPropsWithExplicitSizes {
+  maxSize?: never;
+  maxInlineSize?: React.CSSProperties["maxInlineSize"];
+  maxBlockSize?: React.CSSProperties["maxBlockSize"];
+}
+
+interface BgPropsWithImplicitSizes {
+  maxSize?: React.CSSProperties["maxInlineSize"];
+  maxInlineSize?: never;
+  maxBlockSize?: never;
+}
+
+type BgPatternProps = BgPropsMain &
+  (BgPropsWithExplicitSizes | BgPropsWithImplicitSizes);
 
 /**
  * A reusable SVG pattern to be used as a background.
@@ -37,13 +51,15 @@ interface BgPatternProps extends React.SVGProps<SVGSVGElement> {
  * @prop {boolean | "horizontal" | "vertical"} flip - Whether the pattern should be flipped horizontally, vertically, or both.
  * @prop {BgPosition[keyof BgPosition]} position - Where the pattern should be positioned.
  */
-export const BgPattern = ({
+const BgPattern = ({
+  id,
   full,
   flip,
   color,
   position = "bottom left",
-  maxInlineSize = "100%",
-  maxBlockSize = "100%",
+  maxSize,
+  maxInlineSize,
+  maxBlockSize,
   opacity = 0.2,
   ...props
 }: BgPatternProps) => {
@@ -118,8 +134,8 @@ export const BgPattern = ({
 
   const svgStyle = {
     ...insetPosition,
-    maxInlineSize,
-    maxBlockSize,
+    maxInlineSize: maxSize || maxInlineSize,
+    maxBlockSize: maxSize || maxBlockSize,
     opacity,
     color,
     ...props.style,
@@ -127,7 +143,7 @@ export const BgPattern = ({
 
   return (
     <svg
-      id={`bgPattern-${(crypto?.randomUUID() || new Date().getTime().toString()).slice(0, 6)}`}
+      id={id}
       xmlns="http://www.w3.org/2000/svg"
       viewBox={full ? "0 0 1000 567" : "0 0 539 567"}
       // 539 * 567 for cropped, (1000 - 461) <- x

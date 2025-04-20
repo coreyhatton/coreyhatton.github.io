@@ -7,11 +7,11 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import { Icon } from "@iconify/react";
+import background from "~/assets/beach.jpg";
+import favicon from "~/assets/favicon.png";
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
-import favicon from "~/assets/favicon.png";
-import background from "~/assets/beach.jpg";
-import { Icon } from "@iconify/react";
 
 import gridStyles from "./grid.module.css";
 
@@ -55,7 +55,7 @@ export function Layout({ children }: { children?: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div id="root" className={`bg-full ${gridStyles.gridLayout}`}>
+        <div id="root" className={`bg-full ${gridStyles.gridLayout} `}>
           {children}
           {/* <p className="copyright">{`©Corey Hatton ${new Date().getFullYear()}`}</p> */}
         </div>

@@ -19,7 +19,9 @@ const Hero = ({ className }: HeroProps) => {
         <hgroup className={styles.heroText}>
           <h1>
             Communications & Marketing Professional based in{" "}
-            <span className={styles.location}>Perth, Western Australia</span>
+            {/* <span className={clsx(styles.shine, styles.text)}> */}
+            Perth, Western Australia
+            {/* </span> */}
           </h1>
           <p>
             Currently working as an independent marcomms consultant for SME

@@ -20,6 +20,7 @@ interface UseStickyHeaderProps {
    * a React ref object pointing to an HTMLElement, or null.
    */
   headerElement: HTMLElement | React.RefObject<HTMLElement> | null;
+  override?;
 }
 
 /**
@@ -55,15 +56,17 @@ export const useStickyHeader = ({
 
   const [state, setState] = useState({ isHidden: false, pctHidden: 0 });
 
+  const overrideRef = useRef(false);
+
   /**
    * Retrieves the top position of the current header element relative to the viewport.
    *
    * @returns {number} The top position of the header element in px or 0 if not available.
    */
-  const getElementTopPosition = () => {
+  function getElementTopPosition() {
     const elPosition = node.current?.getBoundingClientRect();
     return elPosition?.top ?? 0;
-  };
+  }
 
   /**
    * Calculates the scroll distance from the previous scroll position.
@@ -177,6 +180,7 @@ export const useStickyHeader = ({
       );
 
       if (
+        overrideRef.current !== true &&
         node.current &&
         translationAmount !== currentScrollRef.currentTranslation
       ) {
@@ -224,6 +228,8 @@ export const useStickyHeader = ({
     currentScrollRef.totalScrollDistance = 0;
     currentScrollRef.currentTranslation = 0;
 
+    node.current.style.translate = `0px 0px`;
+
     window.addEventListener("scroll", () =>
       handleTranslation(currentScrollRef),
     );
@@ -241,11 +247,12 @@ export const useStickyHeader = ({
         cancelAnimationFrame(currentScrollRef.browserAnimationFrames);
       }
     };
-  });
+  }, [headerElement]);
 
   return {
     pctHidden: state.pctHidden.toFixed(0) || 0,
     isHidden: state.isHidden,
+    overrideRef,
   };
 };
 
