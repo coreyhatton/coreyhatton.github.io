@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React, { useRef } from "react";
 import { NavLink } from "react-router";
 
-import { Button } from "../_Primitives/Button";
+import { Button } from "../.primitives/Button";
 import IconComponent from "../Icon";
 import styles from "./styles.module.css";
 
@@ -13,6 +13,7 @@ interface NavLinkProps extends React.ComponentPropsWithoutRef<"li"> {
   linkClassName?: string;
   disabled?: boolean;
   title?: string;
+  icon?: string;
   linkType?: "page" | "resource" | "external";
 }
 

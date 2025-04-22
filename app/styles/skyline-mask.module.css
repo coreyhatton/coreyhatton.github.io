@@ -1,21 +1,5 @@
-.defaults {
-  --svg-height: calc(var(--spacing-unit, 1rlh) * 6);
-  --svg-width: 102%;
-
-  --svg-src-mask: url("/app/assets/skyline-01.svg");
-  --svg-src-outline: url("/app/assets/skyline-ex.svg");
-
-  --svg-mask-position: left calc(100% + var(--svg-height));
-
-  --transition-duration: 300ms;
-  --transition-function: ease-in-out;
-  --transition-delay: 250ms;
-
-  --block-border-width: 4px;
-  --block-border-color: var(--primary-l4);
-}
-
-.skylineMask {
+.skylineMask,
+.skylineMask.defaults {
   /* --aspect-ratio: 6.35 / 1;
       height = 0.16 (16%) */
 
@@ -33,7 +17,9 @@
 
   --block-border-width: 4px;
   --block-border-color: var(--primary-l4);
+}
 
+.skylineMask {
   position: relative;
   padding-block: var(--svg-height);
 
