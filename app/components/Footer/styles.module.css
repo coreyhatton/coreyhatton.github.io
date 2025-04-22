@@ -1,0 +1,52 @@
+@layer components.footer {
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: wide;
+    grid-row: footer;
+    gap: var(--gutter-sm);
+
+    place-content: center;
+    place-items: center stretch;
+
+    padding-inline: var(--gutter);
+    padding-block: var(--spacing-sm);
+
+    border: var(--border-width) solid var(--primary-l4);
+    border-radius: var(--border-radius);
+
+    border-block-end: unset;
+    border-end-start-radius: unset;
+    border-end-end-radius: unset;
+    box-shadow: var(--shadow);
+
+    color: var(--text-contrast);
+
+    background-color: var(--color-primary);
+    background: var(--bg-container);
+
+    font-size: var(--fontsize-sm);
+
+    > *:not(:first-child):not(:last-child) {
+      text-align: center;
+      justify-content: center;
+    }
+
+    > *:first-child,
+    > *:last-child {
+      flex: 1 0;
+      text-align: start;
+      justify-content: start;
+    }
+
+    > *:last-child {
+      text-align: end;
+      justify-content: end;
+    }
+  }
+
+  /* Justifies content if there is more than one child element */
+  .main:has(> :not(:only-child)) {
+    place-content: space-between;
+  }
+}

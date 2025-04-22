@@ -1,32 +1,54 @@
-import styles from "./Socials.module.css";
-import { Icon } from "@iconify/react";
+import IconComponent from "../Icon";
+import styles from "./styles.module.css";
 
 interface SocialsProps extends React.HTMLAttributes<HTMLDivElement> {
   fillColor?: string;
-  height?: string;
+  iconHeight?: string;
 }
 
-const Socials = ({ fillColor = "currentColor", ...props }: SocialsProps) => {
+const Socials = ({
+  fillColor = "currentColor",
+  iconHeight = "1.2cap",
+  ...props
+}: SocialsProps) => {
   const iconProps = {
     color: fillColor,
-    height: props.height || "2em",
+    height: iconHeight,
     className: styles.socialIcon,
   };
 
+  const iconContainerProps = {
+    className: styles.iconContainer,
+  };
+
   return (
-    <div className={`${styles.socialIcons} ${props.className || ""}`}>
+    <div
+      {...props}
+      className={`${styles.socialIcons} ${props.className || ""}`}
+    >
       <a
         href="https://www.linkedin.com/in/corey-hatton/"
         target="_blank"
         title="LinkedIn"
+        {...iconContainerProps}
       >
-        <Icon icon="ri:linkedin-box-fill" {...iconProps} />
+        <IconComponent iconifyIcon="ri:linkedin-box-fill" {...iconProps} />
       </a>
-      <a href="https://github.com/coreyhatton/" target="_blank" title="Github">
-        <Icon icon="ri:github-fill" {...iconProps} />
+      <a
+        href="https://github.com/coreyhatton/"
+        target="_blank"
+        title="Github"
+        {...iconContainerProps}
+      >
+        <IconComponent iconifyIcon="ri:github-fill" {...iconProps} />
       </a>
-      <a href="mailto:hello@coreyhatton.au" target="_blank" title="Email">
-        <Icon icon="ri:mail-fill" {...iconProps} />
+      <a
+        href="mailto:hello@coreyhatton.au"
+        target="_blank"
+        title="Email"
+        {...iconContainerProps}
+      >
+        <IconComponent iconifyIcon="ph:envelope-fill" {...iconProps} />
       </a>
     </div>
   );

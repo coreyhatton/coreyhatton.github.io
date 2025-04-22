@@ -1,38 +1,34 @@
-// import { defineConfig } from "eslint/config";
 import css from "@eslint/css";
-
 import js from "@eslint/js";
-import tsEslint from "typescript-eslint";
-import globals from "globals";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
+import { defineConfig } from "eslint/config";
+import globals from "globals";
+import tsEslint from "typescript-eslint";
 
-// @todo change to eslint's defineConfig function when supported
-// @see https://github.com/typescript-eslint/typescript-eslint/issues/10934
-export default tsEslint.config([
-  {
-    ignores: ["**/{dist,build,node_modules}/*", "**/*.config.*"],
-  },
+/**
+ * Js config for eslint
+ */
+const jsConfig = defineConfig([
   {
     files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
-    extends: [js.configs.recommended, tsEslint.configs.recommendedTypeChecked],
+    // @ts-expect-error (ts2322) @see https://github.com/typescript-eslint/typescript-eslint/issues/10934
+    extends: [js.configs.recommended, tsEslint.configs.recommended],
     ignores: ["**/*.{css}"],
     languageOptions: {
       ecmaVersion: "latest",
-      globals: { ...globals.browser },
-      parser: tsEslint.parser,
+      globals: globals.browser,
       parserOptions: {
         ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
         sourceType: "module",
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
       },
     },
     settings: { react: { version: "detect" } },
     plugins: {
       react,
       "react-hooks": reactHooks,
+      // @ts-expect-error (ts2322) @see https://github.com/typescript-eslint/typescript-eslint/issues/10934
       "@typescript-eslint": tsEslint.plugin,
     },
     rules: {
@@ -40,18 +36,21 @@ export default tsEslint.config([
       ...react.configs["jsx-runtime"].rules,
       ...reactHooks.configs.recommended.rules,
       "react/jsx-no-target-blank": "off",
-      "@typescript-eslint/no-namespace": "off",
     },
   },
+]);
+
+/**
+ * Css config for eslint
+ */
+const cssConfig = defineConfig([
   {
-    ...css.configs.recommended,
     files: ["**/*.css"],
+    extends: [css.configs.recommended],
     language: "css/css",
     languageOptions: {
       // Fix for: CSSTree doesn't yet support nested rule delcataions.
       // @see https://github.com/eslint/css/issues/64
-
-      // @ts-expect-error ts2353
       tolerant: true,
     },
     rules: {
@@ -62,16 +61,46 @@ export default tsEslint.config([
           allowProperties: ["overflow-x", "overflow-y"],
         },
       ],
-      "css/require-baseline": [
+      "css/use-baseline": [
         "warn",
         {
           available: "newly",
         },
       ],
       /* Rules not yet fully supported by CSSTree */
-      // "css/no-invalid-at-rules": "off", // nested @rules not supported
-      // "css/no-invalid-properties": "off", // nested selectors not supported.
-      // Note: invalid properties should be picked up by formatter
+      "css/no-invalid-at-rules": "off", // nested @rules not supported
+      "css/no-invalid-properties": "off", // nested selectors not supported.
+      // Note: invalid properties should already be picked up by formatter
     },
   },
+]);
+
+/**
+ * Enforces css layer naming rules depending on file location
+ */
+const cssLayerConfigs = defineConfig([
+  ["components", "layouts"].map((layer) => {
+    return {
+      files: [`**/${layer}/**/*.css`],
+      extends: [cssConfig],
+      rules: {
+        // "css/use-layers": [
+        //   "error",
+        //   {
+        //     layerNamePattern: `^${layer}`,
+        //   },
+        // ],
+        "css/use-layers": "error",
+      },
+    };
+  }),
+]);
+
+export default defineConfig([
+  {
+    ignores: ["**/{dist,build,node_modules}/*", "**/*.config.*"],
+  },
+  jsConfig,
+  cssConfig,
+  cssLayerConfigs,
 ]);

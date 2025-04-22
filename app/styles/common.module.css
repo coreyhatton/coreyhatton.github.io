@@ -14,3 +14,51 @@
 
   border-radius: var(--border-radius);
 }
+
+.coverLeft {
+  grid-area: cover;
+
+  img {
+    max-inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: left;
+  }
+}
+
+.iconRows {
+  display: grid;
+  gap: var(--gutter);
+  max-inline-size: 100%;
+
+  grid-template:
+    "title title title" auto
+    "cover icon1 contentRow1" auto
+    "cover icon2 contentRow2" auto
+    "cover icon3 contentRow3" auto / minmax(0, calc(33% - var(--gutter))) auto 1fr;
+
+  place-items: start;
+  place-content: start;
+
+  * {
+    margin: unset;
+  }
+
+  h3 {
+    grid-area: title;
+  }
+
+  ul,
+  li {
+    display: contents;
+  }
+
+  svg {
+    grid-column: 2;
+    align-self: baseline;
+  }
+
+  li > p {
+    grid-column: 3;
+  }
+}

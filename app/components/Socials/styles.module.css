@@ -1,0 +1,36 @@
+@layer components.socials {
+  .socialIcons {
+    display: flex;
+    place-content: center;
+    flex-flow: row wrap;
+
+    gap: var(--spacing-xxs);
+    font-size: var(--fontsize-lg);
+
+    /* Container link */
+    .iconContainer {
+      text-decoration: none;
+      padding-block: var(--spacing-xs);
+      padding-inline: var(--spacing-sm);
+      border-radius: var(--border-radius);
+      color: var(--text-contrast);
+
+      transition: all 280ms ease-in-out;
+
+      &:hover,
+      &:focus-visible {
+        background-color: color-mix(in oklab, var(--color-contrast), transparent 80%);
+      }
+
+      iconify-icon {
+        display: inline-block;
+        height: 1em;
+        min-width: 1em;
+      }
+    }
+
+    .socialIcon {
+      place-self: center;
+    }
+  }
+}

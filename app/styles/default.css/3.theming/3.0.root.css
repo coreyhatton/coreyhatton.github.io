@@ -7,10 +7,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /* Set our main font settings on the html element. */
-    font-size: var(--fontsize-md);
-    font-family: var(--font-main);
-    line-height: var(--line-height);
+    /* Set our default font settings on the html element. */
+    font-size: var(--fontsize-md, inherit);
+    font-family: var(--font-main, inherit);
+    line-height: var(--line-height, inherit);
     color: var(--text-base, inherit);
 
     @media (prefers-reduced-motion: reduce) {

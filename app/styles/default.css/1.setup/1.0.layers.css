@@ -1,19 +1,23 @@
-@layer defaultCss {
-  @layer setup, tokens, theming;
+@layer setup, tokens, theming;
 
-  @layer setup {
-    @layer reset;
+@layer setup {
+  @layer reset;
+}
+
+@layer tokens {
+  @layer colors {
+    @layer inputs, palette, calculations, monotones, gradients, standards;
   }
 
-  @layer tokens {
-    @layer colors, spacing, typography;
+  @layer spacing {
+    @layer inputs, sizes;
   }
 
-  @layer theming {
-    @layer root, grid, core, layout;
+  @layer typography {
+    @layer inputs, fonts, sizes;
   }
+}
 
-  /* @layer components;
-
-@layer utilities; */
+@layer theming {
+  @layer root, grid, core, layout;
 }

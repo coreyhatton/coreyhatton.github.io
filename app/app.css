@@ -1,18 +1,33 @@
-@layer defaultCss, layouts, components, utilities;
-@import url("./styles/default.css/style.css");
+@layer defaultCss, layouts, primitives, components;
+@import url("./styles/default.css/IMPORTS.css") layer(defaultCss.setup.imports);
+@import url("./styles/default.css/style.css") layer(defaultCss);
 
 :root,
 ::backdrop {
+  --border-width: 4px;
+  scrollbar-gutter: stable;
+
   /* Fix for moving background image when scrollbar appears */
+  @supports (overflow-block: scroll) {
+    & {
+      overflow-block: scroll;
+    }
+  }
+
   @supports not (overflow-block: scroll) {
     & {
       overflow-y: scroll;
     }
   }
-  overflow-block: scroll;
-  scrollbar-gutter: stable;
+  [popover]:not(:popover-open):not(dialog[open]) {
+    display: none;
+  }
+}
 
-  --border-width: 4px;
+a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
 }
 
 .bg-full::before {
@@ -33,7 +48,7 @@
 .root,
 #root {
   display: grid;
-  gap: var(--gutter-sm);
+  gap: var(--gutter-xs);
 }
 
 .blur {

@@ -1,0 +1,201 @@
+@layer components.navMenu.base, components.navMenu.states;
+
+@layer components.navMenu.base {
+  .navMenu {
+    container: nav / inline-size;
+    display: grid;
+    flex: 1 0 2rem;
+
+    place-items: center;
+
+    color: var(--text-contrast);
+
+    a {
+      color: inherit;
+    }
+
+    .menuBtn {
+      place-self: end;
+      --icon-size: 2cap;
+    }
+
+    .menu,
+    .submenu {
+      display: grid;
+      grid-auto-flow: column;
+
+      gap: var(--spacing-xxs);
+      place-content: center end;
+      place-items: center stretch;
+      text-align: center;
+
+      place-self: end;
+
+      padding-inline: 0;
+      list-style: none;
+      font-size: var(--fontsize-md);
+
+      /* max-inline-size: max-content; */
+
+      .menuItem {
+        position: relative;
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius);
+        flex: 1 0 min-content;
+
+        transition: all 280ms ease-in-out;
+      }
+
+      .menuItem,
+      .submenu__item {
+        background-color: transparent;
+
+        &:not(.featureBtn_Item):where(:hover, :focus-within) {
+          background-color: color-mix(in oklab, var(--color-contrast), transparent 80%);
+          /* backdrop-filter: blur(0.5rem); */
+
+          transition: all 280ms ease-in-out;
+        }
+      }
+
+      /* Stretched link */
+      .menuItem:not(.disabled) > a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        cursor: pointer;
+      }
+    }
+
+    .btnGradient {
+      background-image: linear-gradient(
+        147deg,
+        var(--color-accent) 0%,
+        var(--accent-l1) 51%,
+        var(--color-accent) 80%,
+        var(--accent-l1) 100%
+      );
+      background-size: 200% 600%;
+      background-position: left top;
+
+      transition: all 380ms ease-in-out;
+    }
+
+    .btnGradient:hover {
+      background-position: right bottom;
+      box-shadow: 0px 0px 12px 2px color-mix(in oklab, var(--primary-l4), transparent 80%);
+    }
+
+    .featureBtn_Btn {
+      display: inline-block;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--border-radius);
+
+      color: var(--text-contrast);
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover,
+      &:focus-visible {
+        background-color: var(--accent-l1);
+      }
+
+      &:active {
+        background-color: var(--accent-l2);
+      }
+    }
+
+    .featureBtn_Item {
+      position: relative;
+      padding: var(--spacing-xs);
+      border-radius: var(--border-radius);
+      /* flex: 1 0 min-content; */
+
+      transition: all 280ms ease-in-out;
+    }
+  }
+}
+
+@layer components.navMenu.states {
+  /* Note that you may have to explicitly define parent container's inline-size directly 
+  *  as containment contexts require explicit size definitions.
+  */
+  *:has(> .navMenu) {
+    container-type: inline-size /* NOTE: inline-size should be explicitly defined here! */;
+    min-inline-size: 100%;
+  }
+
+  @container nav (inline-size < 60cqi) {
+    .menu {
+      position: absolute;
+      inset-block-start: 100%;
+      inset-inline: calc(var(--grid-page-gutters) + var(--spacing-md));
+
+      display: flex;
+      content-visibility: hidden;
+      flex-direction: column;
+
+      place-self: stretch;
+      /* place-items: start; */
+
+      max-inline-size: 100%;
+      padding-inline: var(--spacing-sm);
+      padding-block: var(--spacing-sm);
+
+      rotate: x -90deg;
+      transform-origin: top;
+
+      background-color: var(--color-primary);
+      background: linear-gradient(180deg, var(--color-primary) 20%, var(--primary-l1) calc(100%));
+
+      border: 4px solid var(--primary-l4);
+      border-block-start: unset;
+      border-radius: var(--border-radius);
+      border-start-end-radius: unset;
+      border-start-start-radius: unset;
+
+      transition:
+        rotate 180ms ease-out allow-discrete,
+        content-visibility 180ms ease-out allow-discrete;
+    }
+
+    .menuItem,
+    li {
+      inline-size: 100%;
+    }
+
+    .menu.panelOpen {
+      content-visibility: visible;
+      z-index: 0;
+      rotate: x 0deg;
+    }
+  }
+
+  @container nav (inline-size > 60cqi) {
+    .menuBtn {
+      display: none;
+    }
+  }
+
+  :where(.menuItem.disabled, .menuItem.disabled > a) {
+    cursor: default;
+    color: var(--text-disabled-light);
+    background: unset;
+    background-color: unset;
+    transition: text-decoration 200ms ease-in-out;
+
+    text-decoration: underline transparent;
+
+    &:where(:hover, :focus-within) {
+      /* color: var(--text-disabled); */
+      background: unset;
+      background-color: unset;
+      text-decoration: underline var(--warning-base);
+    }
+  }
+}
