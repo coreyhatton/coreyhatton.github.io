@@ -54,11 +54,6 @@
     gap: var(--spacing-xs);
   }
 
-  /* .socials {
-    padding-block-start: var(--spacing-xs);
-    border-block-start: 2px solid var(--color-base);
-  } */
-
   .divider {
     max-inline-size: 100%;
     inline-size: 24ch;

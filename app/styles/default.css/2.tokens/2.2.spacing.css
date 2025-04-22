@@ -2,51 +2,58 @@
   /*********************************************************************************************
   * || 3. SPACING AND PADDING ||
   *********************************************************************************************/
-  :root,
-  ::backdrop {
-    /* By default, we set our base spacing unit equal to the most common spacing element on 
+  @layer inputs {
+    :root,
+    ::backdrop {
+      /* By default, we set our base spacing unit equal to the most common spacing element on 
     most pages (the text's line height) to ensure a consistent rhythm in the layout. */
-    --spacing-unit: 1rlh;
+      --spacing-unit: 1rlh;
 
-    /* Note 1rch is the width of the 0 glyph of the current root font. 
+      /* Default radius for rounded corners. */
+      --border-radius: 0.5rem;
+    }
+  }
+
+  @layer sizes {
+    :root,
+    ::backdrop {
+      /* Note 1rch is the width of the 0 glyph of the current root font. 
        Generally speaking 1rch = ~8px = ~0.5em */
-    --p-max-root-width: 90rch;
+      --p-max-root-width: 90rch;
 
-    /* Default max width for our content on the screen. Ensures readability etc. */
-    /* Approximately 720px wide depending on root font. */
-    --max-content-width: var(--p-max-root-width, 90rch);
-    --max-wide-width: 1200px;
+      /* Default max width for our content on the screen. Ensures readability etc. */
+      /* Approximately 720px wide depending on root font. */
+      --max-content-width: var(--p-max-root-width, 90rch);
+      --max-wide-width: 1200px;
 
-    /* @DEV unused */
-    /* According to studies, line width should generally not exceed ~70 characters. 
+      /* @DEV unused */
+      /* According to studies, line width should generally not exceed ~70 characters. 
        Here we set a variable to constrain the max text width where possible. */
-    --p-max-width: 70ch;
+      --p-max-width: 70ch;
 
-    /* Default radius for rounded corners. */
-    --border-radius: 0.5rem;
-
-    /* Use our spacing unit to compute spacing variables that align to some multiple of our 
+      /* Use our spacing unit to compute spacing variables that align to some multiple of our 
      * baseline grid. */
-    --spacing-xxs: calc(var(--spacing-unit, 1rlh) * 0.25);
-    --spacing-xs: calc(var(--spacing-unit, 1rlh) * 0.33);
-    --spacing-sm: calc(var(--spacing-unit, 1rlh) * 0.5);
-    --spacing-md: var(--spacing-unit, 1rlh);
-    --spacing-lg: calc(var(--spacing-unit, 1rlh) * 2);
-    --spacing-xl: calc(var(--spacing-unit, 1rlh) * 3);
-    --spacing-xxl: calc(var(--spacing-unit, 1rlh) * 4);
-    --spacing-huge: calc(var(--spacing-unit, 1rlh) * 5);
+      --spacing-xxs: calc(var(--spacing-unit, 1rlh) * 0.25);
+      --spacing-xs: calc(var(--spacing-unit, 1rlh) * 0.33);
+      --spacing-sm: calc(var(--spacing-unit, 1rlh) * 0.5);
+      --spacing-md: var(--spacing-unit, 1rlh);
+      --spacing-lg: calc(var(--spacing-unit, 1rlh) * 2);
+      --spacing-xl: calc(var(--spacing-unit, 1rlh) * 3);
+      --spacing-xxl: calc(var(--spacing-unit, 1rlh) * 4);
+      --spacing-huge: calc(var(--spacing-unit, 1rlh) * 5);
 
-    /* Set the spacing of our gutter variables to the spacing variables. */
-    --gutter-xs: var(--spacing-xs);
-    --gutter-sm: var(--spacing-sm);
-    --gutter: var(--spacing-md);
-    --gutter-lg: var(--spacing-lg);
+      /* Set the spacing of our gutter variables to the spacing variables. */
+      --gutter-xs: var(--spacing-xs);
+      --gutter-sm: var(--spacing-sm);
+      --gutter: var(--spacing-md);
+      --gutter-lg: var(--spacing-lg);
 
-    /* Ensure that the horizontal screen padding is always at least 6% of the viewport on either side*/
-    --min-content-width: calc(100dvi - calc(6dvi * 2));
+      /* Ensure that the horizontal screen padding is always at least 6% of the viewport on either side*/
+      /* --min-content-width: calc(100dvi - calc(6dvi * 2)); */
 
-    /* Ensure the content width never goes over the max and never under the min */
-    --page-content-width: min(var(--max-content-width), var(--min-content-width));
-    --page-wide-width: min(var(--max-wide-width), var(--min-content-width));
+      /* Ensure the content width never goes over the max and never under the min */
+      /* --page-content-width: min(var(--max-content-width), var(--min-content-width));
+    --page-wide-width: min(var(--max-wide-width), var(--min-content-width)); */
+    }
   }
 }

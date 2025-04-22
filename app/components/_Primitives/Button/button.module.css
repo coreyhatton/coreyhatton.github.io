@@ -126,7 +126,10 @@
       fill: var(--bg-color);
       color: var(--bg-color);
       transition: inherit;
-      flex: 0 0 auto;
+      /* flex: 0 0 auto; */
+      flex: none;
+      height: var(--icon-size, 1.2cap);
+      width: auto;
       display: block;
     }
 

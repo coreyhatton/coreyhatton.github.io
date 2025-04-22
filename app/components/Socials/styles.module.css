@@ -5,7 +5,7 @@
     flex-flow: row wrap;
 
     gap: var(--spacing-xxs);
-    font-size: var(--fontsize-sm);
+    font-size: var(--fontsize-lg);
 
     /* Container link */
     .iconContainer {
@@ -13,9 +13,7 @@
       padding-block: var(--spacing-xs);
       padding-inline: var(--spacing-sm);
       border-radius: var(--border-radius);
-      /* background-color: var(--color-primary); */
       color: var(--text-contrast);
-      /* box-sizing: content-box; */
 
       transition: all 280ms ease-in-out;
 

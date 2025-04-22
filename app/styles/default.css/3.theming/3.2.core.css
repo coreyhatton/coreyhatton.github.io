@@ -1,4 +1,8 @@
 @layer theming.core {
+  [hidden] {
+    display: none !important;
+  }
+
   /* Prevent long strings from overflowing container */
   p,
   h1,
@@ -16,8 +20,48 @@
     outline-offset: 5px;
   }
 
+  a:is(nav a, button a) {
+    text-decoration: none;
+  }
+
+  a:not([class]):hover,
+  abbr {
+    text-underline-offset: 0.2ex;
+  }
+
   :is(p, ul, ol):not(li *) {
     margin: unset;
+  }
+
+  :focus {
+    outline-color: var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+    outline-style: var(--focus-ring-style);
+    outline-width: var(--focus-ring-width);
+  }
+
+  @supports selector(::selection) {
+    ::selection {
+      background: var(--selection-bg);
+      color: var(--selection-text);
+    }
+  }
+
+  @supports selector(:focus-visible) {
+    :focus {
+      outline: none;
+    }
+
+    :focus-visible {
+      outline-color: var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
+      outline-style: var(--focus-ring-style);
+      outline-width: var(--focus-ring-width);
+    }
+  }
+
+  svg {
+    flex-shrink: 0;
   }
 
   /* LISTS **********************/
@@ -35,10 +79,12 @@
       margin-block-end: 0;
     }
 
-    & li::marker {
-      display: inline-flex;
-      font: inherit;
-      text-align: unset;
+    @supports selector(li::marker) {
+      & li::marker {
+        display: inline-flex;
+        font: inherit;
+        text-align: unset;
+      }
     }
 
     &[role="list"],
@@ -48,7 +94,7 @@
     }
   }
 
-  /* Custom marker for nested counters */
+  /* Custom cascading number marker for nested counters (1.1, 1.2, etc.) */
   ol {
     list-style: none;
     counter-reset: item;
@@ -66,8 +112,6 @@
 
   /* Description lists */
   dl {
-    margin-block: var(--spacing-sm);
-
     /* Description terms */
     dt {
       font-weight: bold;
@@ -127,18 +171,20 @@
       margin-inline-start: -3ch;
       line-height: 1;
       vertical-align: middle;
-      opacity: 0.6;
 
+      opacity: 0.6;
       color: var(--color-accent);
     }
   }
 
-  :is(h1, h2, h3) {
+  h1,
+  h2,
+  h3,
+  h4 {
     line-height: var(--line-height-condensed, 1.2);
   }
 
   h1 {
-    /* margin-block-end: var(--spacing-sm); */
     font-size: var(--fontsize-xxl);
     font-weight: bolder;
   }

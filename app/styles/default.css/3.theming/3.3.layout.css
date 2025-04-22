@@ -2,6 +2,11 @@
   /* Header, Main, Footer specifics */
 
   /********** HEADER **********/
+  /* Anchor decoration is unwanted in nav. */
+  header nav a {
+    text-decoration: none;
+  }
+
   :is(header, footer):not(main *) {
     row-gap: var(--gutter-sm);
     padding-block: var(--spacing-md);

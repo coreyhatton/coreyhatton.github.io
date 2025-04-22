@@ -70,31 +70,5 @@
       [header-start] auto
       [header-end content-start wide-start] 1fr
       [content-end wide-end footer-start] auto [footer-end];
-
-    /* :where(header, footer):not(main header, main footer) {
-      display: grid;
-      grid-template-columns: subgrid;
-
-      grid-column: header;
-      grid-row: header;
-
-      &:where(footer) {
-        grid-area: footer;
-      }
-    } */
-
-    /* > :where(main, aside, nav) {
-      grid-column: content;
-      grid-row: content;
-    } */
-    /* 
-    > aside ~ main {
-      grid-column: main;
-    } */
-
-    > * {
-      /* grid-column: content; */
-      /* NOTE: default to column. Expand to wide on individual elements. */
-    }
   }
 }

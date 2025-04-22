@@ -1,76 +1,9 @@
 @layer components.navMenu.base, components.navMenu.states;
 
-@layer components.navMenu.states {
-  /* Note that you may have to explicitly define parent container's inline-size directly 
-  *  as containment contexts require explicit size definitions.
-  */
-  *:has(> .navMenu) {
-    container-type: inline-size /* NOTE: inline-size should be explicitly defined here! */;
-    min-inline-size: 100%;
-  }
-
-  @container nav (inline-size < 60cqi) {
-    .menu {
-      transition: all 380ms ease-out allow-discrete;
-      position: fixed;
-      inset-block-start: 0;
-      inset-inline: calc(var(--grid-page-gutters) + var(--spacing-md));
-      background-color: var(--primary-l3);
-      place-self: stretch;
-      max-inline-size: 100%;
-      content-visibility: hidden;
-      rotate: x -90deg;
-      translate: 0 100%;
-      border: 4px solid var(--primary-l4);
-      border-block-start: unset;
-      border-radius: var(--border-radius);
-      border-start-end-radius: unset;
-      border-start-start-radius: unset;
-      transform-origin: top;
-      place-content: center;
-      margin-block-start: var(--spacing-sm);
-    }
-
-    .menu.panelOpen {
-      content-visibility: visible;
-      transition: all 380ms ease-in allow-discrete;
-
-      translate: 0 100%;
-      z-index: 0;
-      rotate: x 0deg;
-    }
-  }
-
-  @container nav (inline-size > 60cqi) {
-    .menuBtn {
-      display: none;
-    }
-  }
-
-  :where(.menuItem.disabled, .menuItem.disabled > a) {
-    cursor: default;
-    color: var(--text-disabled-light);
-    background: unset;
-    background-color: unset;
-    /* transition-duration: 80ms; */
-    /* text-decoration: wavy underline transparent; */
-    /* text-decoration-thickness: 0; */
-    transition: text-decoration 200ms ease-in-out;
-
-    text-decoration: wavy underline transparent;
-
-    &:where(:hover, :focus-within) {
-      /* color: var(--text-disabled); */
-      background: unset;
-      background-color: unset;
-      text-decoration: wavy underline var(--warning-base);
-    }
-  }
-}
-
 @layer components.navMenu.base {
   .navMenu {
     container: nav / inline-size;
+    display: grid;
     flex: 1 0 2rem;
 
     place-items: center;
@@ -83,6 +16,7 @@
 
     .menuBtn {
       place-self: end;
+      --icon-size: 2cap;
     }
 
     .menu,
@@ -116,7 +50,7 @@
       .submenu__item {
         background-color: transparent;
 
-        &:where(:hover, :focus-within) {
+        &:not(.featureBtn_Item):where(:hover, :focus-within) {
           background-color: color-mix(in oklab, var(--color-contrast), transparent 80%);
           /* backdrop-filter: blur(0.5rem); */
 
@@ -183,6 +117,85 @@
       /* flex: 1 0 min-content; */
 
       transition: all 280ms ease-in-out;
+    }
+  }
+}
+
+@layer components.navMenu.states {
+  /* Note that you may have to explicitly define parent container's inline-size directly 
+  *  as containment contexts require explicit size definitions.
+  */
+  *:has(> .navMenu) {
+    container-type: inline-size /* NOTE: inline-size should be explicitly defined here! */;
+    min-inline-size: 100%;
+  }
+
+  @container nav (inline-size < 60cqi) {
+    .menu {
+      position: absolute;
+      inset-block-start: 100%;
+      inset-inline: calc(var(--grid-page-gutters) + var(--spacing-md));
+
+      display: flex;
+      content-visibility: hidden;
+      flex-direction: column;
+
+      place-self: stretch;
+      /* place-items: start; */
+
+      max-inline-size: 100%;
+      padding-inline: var(--spacing-sm);
+      padding-block: var(--spacing-sm);
+
+      rotate: x -90deg;
+      transform-origin: top;
+
+      background-color: var(--color-primary);
+      background: linear-gradient(180deg, var(--color-primary) 20%, var(--primary-l1) calc(100%));
+
+      border: 4px solid var(--primary-l4);
+      border-block-start: unset;
+      border-radius: var(--border-radius);
+      border-start-end-radius: unset;
+      border-start-start-radius: unset;
+
+      transition:
+        rotate 180ms ease-out allow-discrete,
+        content-visibility 180ms ease-out allow-discrete;
+    }
+
+    .menuItem,
+    li {
+      inline-size: 100%;
+    }
+
+    .menu.panelOpen {
+      content-visibility: visible;
+      z-index: 0;
+      rotate: x 0deg;
+    }
+  }
+
+  @container nav (inline-size > 60cqi) {
+    .menuBtn {
+      display: none;
+    }
+  }
+
+  :where(.menuItem.disabled, .menuItem.disabled > a) {
+    cursor: default;
+    color: var(--text-disabled-light);
+    background: unset;
+    background-color: unset;
+    transition: text-decoration 200ms ease-in-out;
+
+    text-decoration: underline transparent;
+
+    &:where(:hover, :focus-within) {
+      /* color: var(--text-disabled); */
+      background: unset;
+      background-color: unset;
+      text-decoration: underline var(--warning-base);
     }
   }
 }

@@ -7,37 +7,66 @@
     box-sizing: border-box;
   }
 
+  /* Remove default margin from body */
   body {
     margin: unset;
   }
 
-  /* Anchor decoration is unwanted in nav. */
-  header nav a {
-    text-decoration: none;
+  /* Remove default margin on elements favour of better control in authored CSS */
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin-block-end: 0;
   }
 
-  /* Remove built-in form typography styles. */
-  button,
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  /* A elements that don't have a class get default styles */
+  a:not([class]) {
+    text-decoration-skip-ink: auto;
+    color: currentColor;
+  }
+
+  /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+  ul[role="list"],
+  ol[role="list"] {
+    list-style: none;
+  }
+
+  /* Inherit fonts for inputs and buttons */
   input,
+  button,
   textarea,
   select {
-    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
   }
 
-  /* Improve default media behaviour. */
+  /* Make images easier to work with */
   img,
-  picture,
-  video,
-  svg,
-  canvas {
-    display: block;
+  picture {
     max-inline-size: 100%;
-    block-size: auto;
+    display: block;
   }
 
-  /* Ensure script elements are not displayed in content. */
-  link,
-  script {
+  /* Make sure textareas without a rows attribute are not tiny */
+  textarea:not([rows]) {
+    min-block-size: 10em;
+  }
+
+  /* Ensure script elements are not displayed in content unless specifically styled. */
+  :where(link, script):not([class]) {
     display: none;
   }
 }
