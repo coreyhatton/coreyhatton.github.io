@@ -1,1 +1,0 @@
-import{w as s}from"./with-props-DiV1pL53.js";import{n as t,O as o}from"./chunk-XJI4KG32-d9mDD3c2.js";const r=()=>t.jsxs(t.Fragment,{children:[t.jsx("h1",{children:"About"}),t.jsx("p",{children:"This is the about page."}),t.jsx(o,{})]}),a=s(r);export{a as default};
