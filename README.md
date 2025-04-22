@@ -1,4 +1,12 @@
-# Welcome to React Router!
+# CoreyHatton.au | Created with React Router
+
+_Built from the ground up with React, React Router v7, Typescript and CSS modules._
+
+```
+  @todo: finish this readme!
+```
+
+## Welcome to React Router!
 
 A modern, production-ready template for building full-stack React applications using React Router.
 
