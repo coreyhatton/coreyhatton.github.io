@@ -2,9 +2,8 @@ import clsx from "clsx";
 import React, { useRef } from "react";
 import { NavLink } from "react-router";
 
-import { Icon } from "@iconify/react";
-
 import { Button } from "../_Primitives/Button";
+import IconComponent from "../Icon";
 import styles from "./styles.module.css";
 
 interface NavLinkProps extends React.ComponentPropsWithoutRef<"li"> {
@@ -14,6 +13,7 @@ interface NavLinkProps extends React.ComponentPropsWithoutRef<"li"> {
   linkClassName?: string;
   disabled?: boolean;
   title?: string;
+  linkType?: "page" | "resource" | "external";
 }
 
 interface featureButtonProps
@@ -26,7 +26,7 @@ interface featureButtonProps
   style?: React.CSSProperties;
 }
 
-interface NavMenuProps {
+interface NavMenuProps extends React.ComponentPropsWithoutRef<"nav"> {
   navLinks: NavLinkProps[];
   featureButton?: featureButtonProps;
   panelState;
@@ -34,12 +34,14 @@ interface NavMenuProps {
 }
 
 export const NavMenuButton = ({
-  panelState,
-  setPanelState,
   triggerRef,
-  iconHeight = "1lh",
+  handleClick,
   ...props
-}) => {
+}: {
+  iconHeight?: string;
+  triggerRef: React.RefObject<HTMLButtonElement>;
+  handleClick: () => void;
+} & React.ComponentPropsWithoutRef<"button">) => {
   return (
     <Button
       className={clsx(styles.menuBtn)}
@@ -47,12 +49,10 @@ export const NavMenuButton = ({
       variant="icon"
       fill="base"
       isRounded
-      onClick={() => {
-        setPanelState({ open: !open });
-      }}
+      onClick={handleClick}
       {...props}
     >
-      <Icon icon="ph:list-bold" height={iconHeight} />
+      <IconComponent iconifyIcon="ph:list-bold" height={"1lh"} />
     </Button>
   );
 };
@@ -64,16 +64,16 @@ export const NavMenu = ({
   setPanelState,
   ...containerProps
 }: NavMenuProps) => {
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(
+    null,
+  ) as React.RefObject<HTMLButtonElement>;
   const ulRef = useRef<HTMLUListElement>(null);
 
   // const [panelState, setPanelState] = useState({ open: false });
 
   const menuButtonProps = {
-    panelState,
-    setPanelState,
     triggerRef,
-    onClick: () => {
+    handleClick: () => {
       setPanelState({
         open: !panelState.open,
       });
@@ -81,7 +81,10 @@ export const NavMenu = ({
   };
 
   return (
-    <nav className={styles.navMenu} {...containerProps}>
+    <nav
+      {...containerProps}
+      className={clsx(styles.navMenu, containerProps.className)}
+    >
       <NavMenuButton {...menuButtonProps} />
       <ul
         className={clsx(styles.menu, panelState.open ? styles.panelOpen : "")}
@@ -95,6 +98,8 @@ export const NavMenu = ({
             to,
             linkClassName,
             title,
+            icon,
+            linkType,
             ...props
           }) => (
             <li
@@ -108,8 +113,15 @@ export const NavMenu = ({
               {...props}
             >
               {!disabled ?
-                <NavLink to={to || ""} title={title}>
-                  {label}
+                <NavLink
+                  to={to || ""}
+                  title={title}
+                  reloadDocument={linkType === "resource"}
+                >
+                  {label}{" "}
+                  {icon && (
+                    <IconComponent iconifyIcon={icon} height={"1.2cap"} />
+                  )}
                 </NavLink>
               : <span title={title}>{label}</span>}
             </li>

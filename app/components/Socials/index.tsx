@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react";
+import IconComponent from "../Icon";
 import styles from "./styles.module.css";
 
 interface SocialsProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -8,7 +8,7 @@ interface SocialsProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Socials = ({
   fillColor = "currentColor",
-  iconHeight = "1lh",
+  iconHeight = "1.2cap",
   ...props
 }: SocialsProps) => {
   const iconProps = {
@@ -32,7 +32,7 @@ const Socials = ({
         title="LinkedIn"
         {...iconContainerProps}
       >
-        <Icon icon="ri:linkedin-box-fill" {...iconProps} />
+        <IconComponent iconifyIcon="ri:linkedin-box-fill" {...iconProps} />
       </a>
       <a
         href="https://github.com/coreyhatton/"
@@ -40,7 +40,7 @@ const Socials = ({
         title="Github"
         {...iconContainerProps}
       >
-        <Icon icon="ri:github-fill" {...iconProps} />
+        <IconComponent iconifyIcon="ri:github-fill" {...iconProps} />
       </a>
       <a
         href="mailto:hello@coreyhatton.au"
@@ -48,7 +48,7 @@ const Socials = ({
         title="Email"
         {...iconContainerProps}
       >
-        <Icon icon="ph:envelope-fill" {...iconProps} />
+        <IconComponent iconifyIcon="ph:envelope-fill" {...iconProps} />
       </a>
     </div>
   );

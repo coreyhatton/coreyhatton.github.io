@@ -6,6 +6,7 @@ import styles from "./styles.module.css";
 import footerStyles from "~/components/Footer/styles.module.css";
 
 import { useEffect, useRef, useState } from "react";
+import resume from "~/assets/CH_Resume_25.pdf";
 import icon from "~/assets/favicon.png";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
@@ -22,8 +23,10 @@ const HomeLayout = () => {
       title: "🚧Coming soon!🚧",
     },
     {
-      to: "/",
+      to: resume,
       label: "Resume",
+      icon: "ph:download-simple-light",
+      linkType: "resource" as const,
     },
     // {
     //   label: "Projects",
@@ -54,7 +57,7 @@ const HomeLayout = () => {
   // block translation effects when panelState is open
   useEffect(() => {
     overrideRef.current = panelState.open;
-  }, [panelState.open]);
+  }, [panelState.open, overrideRef]);
 
   return (
     <>
@@ -70,6 +73,7 @@ const HomeLayout = () => {
           featureButton={featureButton}
           panelState={panelState}
           setPanelState={setPanelState}
+          className={styles.navMenu}
         />
       </Header>
 
@@ -87,7 +91,7 @@ const HomeLayout = () => {
         <p
           className={styles.wideLeft}
         >{`© Corey Hatton ${new Date().getFullYear()}`}</p>
-        <Socials iconHeight="1em" className={styles.center} />
+        <Socials className={styles.center} />
         <p className={footerStyles.wideRight}>This website is open source.</p>
       </Footer>
     </>
