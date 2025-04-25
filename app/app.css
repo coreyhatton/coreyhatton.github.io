@@ -5,20 +5,20 @@
 :root,
 ::backdrop {
   --border-width: 4px;
-  scrollbar-gutter: stable;
 
   /* Fix for moving background image when scrollbar appears */
-  @supports (overflow-block: scroll) {
+  /* @supports (overflow-block: scroll) {
     & {
-      overflow-block: scroll;
+      overflow-block: auto;
     }
   }
 
   @supports not (overflow-block: scroll) {
     & {
-      overflow-y: scroll;
+      overflow-y: auto;
     }
-  }
+  } */
+
   [popover]:not(:popover-open):not(dialog[open]) {
     display: none;
   }
@@ -31,13 +31,13 @@ a {
 }
 
 .bg-full::before {
-  content: "";
+  z-index: -999;
   position: fixed;
   inset: 0;
-  z-index: -999;
 
   background: url("./assets/beach.jpg") no-repeat 0% 90% / cover fixed;
   background-color: var(--color-primary);
+  content: "";
   filter: brightness(0.7);
 }
 
@@ -56,27 +56,27 @@ a {
 }
 
 .blur::after {
-  content: "";
+  z-index: -999;
   position: absolute;
-  inset: 0 calc(var(--gutter) * -1);
 
   grid-column: wide;
-
-  backdrop-filter: blur(10px) brightness(0.8);
-  z-index: -999;
+  inset: 0 calc(var(--gutter) * -1);
 
   border-radius: var(--border-radius);
+
+  backdrop-filter: blur(10px) brightness(0.8);
+  content: "";
 }
 
 .copyright {
-  position: fixed;
-  bottom: var(--spacing-xs);
-  right: var(--spacing-md);
-  font-size: var(--fontsize-xs);
-  color: var(--text-contrast);
-  opacity: 0.6;
   z-index: -1;
+  position: fixed;
   grid-column: full;
+  inset-block-end: var(--spacing-xs);
+  inset-inline-end: var(--spacing-md);
+  color: var(--text-contrast);
+  font-size: var(--fontsize-xs);
+  opacity: 0.6;
 }
 
 .error {
@@ -94,8 +94,8 @@ a {
   }
 
   summary {
-    font-family: var(--font-mono);
     font-weight: unset;
+    font-family: var(--font-mono);
   }
 
   pre {

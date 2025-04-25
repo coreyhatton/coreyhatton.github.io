@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import BgPattern from "~/components/Graphics/bgPattern";
+import BgPattern from "~/components/Graphics";
 import Hero from "~/components/Hero";
 
 const Home = () => {

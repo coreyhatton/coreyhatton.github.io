@@ -1,5 +1,5 @@
-import styles from "./Sidebar.module.css";
 import { Icon } from "@iconify/react";
+import styles from "./styles.module.css";
 
 const Socials = ({ fillColor = "currentColor", ...props }) => {
   const iconProps = {

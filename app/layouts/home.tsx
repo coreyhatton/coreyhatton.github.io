@@ -3,16 +3,10 @@ import { Outlet } from "react-router";
 import maskStyles from "~/styles/skyline-mask.module.css";
 import styles from "./styles.module.css";
 
-import footerStyles from "~/components/Footer/styles.module.css";
-
 import { useEffect, useRef, useState } from "react";
 import resume from "~/assets/CH_Resume_25.pdf";
 import icon from "~/assets/favicon.png";
-import Footer from "~/components/Footer";
-import Header from "~/components/Header";
-import Main from "~/components/Main";
-import NavMenu from "~/components/NavMenu";
-import Socials from "~/components/Socials";
+import { Footer, Header, Main, NavMenu, Socials } from "~/components";
 import useStickyHeader from "~/utils/useStickyHeader";
 
 const HomeLayout = () => {
@@ -47,11 +41,11 @@ const HomeLayout = () => {
 
   const [panelState, setPanelState] = useState({ open: false });
 
-  const headerRef = useRef<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   const { overrideRef } = useStickyHeader({
     headerElement: headerRef as React.RefObject<HTMLElement>,
-    scrollThreshold: 30,
+    scrollThreshold: 30, // in px
   });
 
   // block translation effects when panelState is open
@@ -87,12 +81,10 @@ const HomeLayout = () => {
         <Outlet />
       </Main>
 
-      <Footer className={styles.linearGradientBg}>
-        <p
-          className={styles.wideLeft}
-        >{`© Corey Hatton ${new Date().getFullYear()}`}</p>
+      <Footer className={styles.linearGradientBg} width={"full"}>
+        <p>{`© Corey Hatton ${new Date().getFullYear()}`}</p>
         <Socials className={styles.center} />
-        <p className={footerStyles.wideRight}>This website is open source.</p>
+        <p>This website is open source.</p>
       </Footer>
     </>
   );

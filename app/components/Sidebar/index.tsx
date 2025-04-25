@@ -1,6 +1,6 @@
 import Header from "./Header";
-import styles from "./Sidebar.module.css";
 import Socials from "./Socials";
+import styles from "./styles.module.css";
 
 const Sidebar = ({ children = null }) => {
   return (

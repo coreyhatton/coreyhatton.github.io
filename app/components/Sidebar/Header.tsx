@@ -1,5 +1,5 @@
-import styles from "./Sidebar.module.css";
 import portrait from "~/assets/portrait.png";
+import styles from "./styles.module.css";
 
 const Header = () => (
   <header className={styles.header}>

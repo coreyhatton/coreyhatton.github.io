@@ -1,21 +1,26 @@
 @layer theming.root {
   :root,
   ::backdrop {
-    scroll-behavior: smooth;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: var(--text-base, inherit);
 
     /* Set our default font settings on the html element. */
     font-size: var(--fontsize-md, inherit);
-    font-family: var(--font-main, inherit);
     line-height: var(--line-height, inherit);
-    color: var(--text-base, inherit);
+    font-family: var(--font-main, inherit);
 
     @media (prefers-reduced-motion: reduce) {
       scroll-behavior: auto;
     }
+  }
+
+  :root,
+  ::backdrop {
+    --border-container: var(--border-width) solid var(--primary-l4);
   }
 
   /* Prevent scripts from impacting line heights. */

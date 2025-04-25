@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { useRef } from "react";
 import { useFocusRing, usePress } from "react-aria";
-import styles from "./button.module.css";
+import styles from "./styles.module.css";
 
 type FillColors =
   | "primary"
@@ -113,3 +113,5 @@ export const Button = ({
 };
 
 Button.displayName = "Button";
+
+export default Button;

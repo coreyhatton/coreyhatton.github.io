@@ -35,9 +35,9 @@
 
   :focus {
     outline-color: var(--focus-ring-color);
-    outline-offset: var(--focus-ring-offset);
     outline-style: var(--focus-ring-style);
     outline-width: var(--focus-ring-width);
+    outline-offset: var(--focus-ring-offset);
   }
 
   @supports selector(::selection) {
@@ -54,9 +54,9 @@
 
     :focus-visible {
       outline-color: var(--focus-ring-color);
-      outline-offset: var(--focus-ring-offset);
       outline-style: var(--focus-ring-style);
       outline-width: var(--focus-ring-width);
+      outline-offset: var(--focus-ring-offset);
     }
   }
 
@@ -68,15 +68,15 @@
   :where(ul, ol):not(nav ul, nav ol) {
     display: flex;
     flex-direction: column;
-    gap: var(--gutter-xs);
     margin-block: var(--spacing-xs);
     padding-inline-start: var(--spacing-sm);
+    gap: var(--gutter-xs);
     list-style-position: inside;
 
     /* nested lists */
     & & {
-      padding-inline-start: var(--spacing-lg);
       margin-block-end: 0;
+      padding-inline-start: var(--spacing-lg);
     }
 
     @supports selector(li::marker) {
@@ -103,9 +103,9 @@
       padding-inline-start: 0;
       &:before {
         display: inline-flex;
+        padding-inline-end: var(--spacing-md);
         content: counters(item, ".") ".";
         counter-increment: item;
-        padding-inline-end: var(--spacing-md);
       }
     }
   }
@@ -126,8 +126,8 @@
 
   /* FIGURES **********************/
   figure {
-    margin: unset;
     max-inline-size: 100%;
+    margin: unset;
     overflow-x: auto;
 
     > img,
@@ -137,9 +137,9 @@
     }
 
     figcaption {
-      text-align: center;
-      font-size: 0.9em;
       color: var(--text-muted);
+      font-size: 0.9em;
+      text-align: center;
     }
   }
 
@@ -150,30 +150,29 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-headings);
-    text-wrap: balance;
-    font-weight: bold;
-    font-size: var(--fontsize-md, 1rem);
-
     /* margin-block-start: var(--spacing-sm); */
     margin-block: unset;
+    font-weight: bold;
+    font-size: var(--fontsize-md, 1rem);
+    font-family: var(--font-headings);
+    text-wrap: balance;
 
     /* Adds a marker when the url fragment matches a specified target element */
     /* e.g. navigating to https://developer.mozilla.org/en-US/docs/Web/CSS/:target#syntax  */
     &:target::before,
     header:target &::before
     /* *:target header &::before  */ {
-      content: "#";
       display: inline-block;
-      font-size: var(--fontsize-sm);
+      margin-inline-start: -3ch;
       padding-inline-start: 1.3ch;
       padding-inline-end: 0.3ch;
-      margin-inline-start: -3ch;
+      content: "#";
+      color: var(--color-accent);
+      font-size: var(--fontsize-sm);
       line-height: 1;
       vertical-align: middle;
 
       opacity: 0.6;
-      color: var(--color-accent);
     }
   }
 
@@ -185,8 +184,8 @@
   }
 
   h1 {
-    font-size: var(--fontsize-xxl);
     font-weight: bolder;
+    font-size: var(--fontsize-xxl);
   }
 
   h2 {
@@ -316,8 +315,8 @@
     transition: all 0.2s ease-in-out;
   }
   input::file-selector-button:active {
-    color: var(--text-base);
     background-color: var(--accent-l2);
+    color: var(--text-base);
   }
   input::file-selector-button:focus-visible {
     outline: 2px solid var(--focus-outline);
@@ -331,22 +330,22 @@
   pre span,
   kbd,
   samp {
-    font-family: var(--font-mono);
     font-style: normal;
+    font-family: var(--font-mono);
   }
 
   /* per https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-kbd-element */
   kbd kbd {
     display: inline-block;
+    margin-inline: var(--spacing-xs);
     padding-inline: var(--spacing-sm);
     padding-block: var(--spacing-xs);
-    margin-inline: var(--spacing-xs);
+    border: 1px outset var(--color-gray);
+    border-radius: var(--border-radius);
+    border-block-end-width: 3px;
+    font-size: 0.8em;
 
     line-height: inherit;
-    font-size: 0.8em;
-    border: 1px outset var(--color-gray);
-    border-block-end-width: 3px;
-    border-radius: var(--border-radius);
   }
 
   samp {
@@ -354,13 +353,12 @@
   }
 
   pre {
-    font-size: 0.9em;
-    tab-size: 2;
-
     margin-block: var(--gutter);
 
     overflow-x: auto;
+    font-size: 0.9em;
     scrollbar-width: thin;
+    tab-size: 2;
 
     @supports (scrollbar-color: var(--color-accent) transparent) {
       scrollbar-color: var(--color-accent) transparent;
@@ -370,8 +368,8 @@
   blockquote,
   figure:has(> blockquote) {
     display: grid;
-    gap: var(--spacing-sm);
     padding-block: var(--gutter);
+    gap: var(--spacing-sm);
 
     cite {
       padding-block-start: var(--gutter-xs);
@@ -381,17 +379,17 @@
     &:is(blockquote),
     + cite,
     + :where(p, figcaption, div):has(cite) {
-      background-color: var(--bg-base);
-
-      padding-inline-start: var(--spacing-md);
-      padding-inline-end: var(--spacing-md);
       margin-inline: var(--spacing-lg);
       margin-block: unset;
 
+      padding-inline-start: var(--spacing-md);
+      padding-inline-end: var(--spacing-md);
+
       border-inline-start: 4px solid var(--primary-l2);
+      background-color: var(--bg-base);
+      font-style: italic;
 
       font-size: var(--fontsize-md);
-      font-style: italic;
       text-wrap: pretty;
 
       &:is(cite, cite *, em, dfn, var, i, address),
@@ -423,13 +421,13 @@
     :where(> cite:last-child, p + cite:last-child, p:has(cite):last-child, + p:has(cite):last-child),
     &:not(blockquote) + :where(p, figcaption, div, footer):has(cite),
     + :where(p, figcaption, div, footer):has(cite) {
-      font-size: var(--fontsize-sm);
       font-style: normal;
+      font-size: var(--fontsize-sm);
 
       &::before {
+        align-self: center;
         /* Insert an em dash before the cite source if it's not an inline citation */
         content: "—\00a0";
-        align-self: center;
         font-size: var(--fontsize-sm);
       }
     }
@@ -441,8 +439,8 @@
     color: var(--link-unvisited, LinkText);
 
     &:hover {
-      text-decoration: none;
       color: var(--link-hover);
+      text-decoration: none;
     }
 
     &:active {
@@ -476,8 +474,8 @@
   }
 
   mark {
-    padding-inline: 0.2ch;
     margin-inline: -0.1ch;
+    padding-inline: 0.2ch;
     background-color: var(--color-mark, Mark);
     color: var(--color-marktext, MarkText);
   }
@@ -492,8 +490,8 @@
   }
 
   ins {
-    text-decoration-color: var(--success-base, #2e7d32);
     background-color: var(--success-l3, #2e7d322f);
+    text-decoration-color: var(--success-base, #2e7d32);
   }
 
   /* EMBEDDED CONTENT **********************/
@@ -550,14 +548,14 @@
     th {
       padding-inline: var(--spacing-sm);
       padding-block: 0.5lh; /* Adjust padding by text size */
-      text-align: center;
       border-inline: var(--table-separator);
+      text-align: center;
     }
 
     tbody {
       tr {
-        background-color: var(--table-background);
         border: var(--row-separator);
+        background-color: var(--table-background);
 
         &:nth-child(even) {
           background-color: var(--table-stripes);
@@ -586,10 +584,10 @@
       }
 
       td {
+        padding-block: 0.5lh;
         font-style: italic;
         font-weight: normal;
         font-size: var(--fontsize-sm);
-        padding-block: 0.5lh;
       }
     }
   }
@@ -597,38 +595,35 @@
   /* INTERACTIVE CONTENT **********************/
   /*  Note that there is currently no way to animate this without JS (other than the marker).  */
   details {
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-
     padding-inline: var(--spacing-md);
     padding-block: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
 
     box-shadow: var(--shadow);
 
     summary {
-      font-weight: bold;
-      list-style: none;
+      z-index: 10;
       position: relative;
 
       padding-inline-start: var(--spacing-md);
+      font-weight: bold;
+      list-style: none;
 
       cursor: pointer;
       user-select: none;
 
-      z-index: 10;
-
       &::before {
-        content: "";
-        border: 1ex solid transparent;
-        border-left-color: var(--color-primary);
+        position: absolute;
+        top: 50%;
+        left: calc(0px - var(--spacing-md));
         transform: rotate(0);
         transform-origin: 25% 50%;
-        transition: 250ms transform ease-in-out;
-
-        position: absolute;
-        left: calc(0px - var(--spacing-md));
-        top: 50%;
         translate: var(--spacing-md) -48%;
+        border: 1ex solid transparent;
+        border-left-color: var(--color-primary);
+        content: "";
+        transition: 250ms transform ease-in-out;
       }
     }
 
@@ -658,11 +653,11 @@
   article {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
 
     max-inline-size: 100%;
 
     overflow-x: auto;
+    gap: var(--spacing-md);
 
     &:has(> p + p) {
       row-gap: var(--spacing-sm);
@@ -680,9 +675,9 @@
 
   hr {
     display: block;
-    background-color: currentColor;
-    border: none;
-    block-size: 2px;
     inline-size: 100%;
+    block-size: 2px;
+    border: none;
+    background-color: currentColor;
   }
 }

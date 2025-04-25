@@ -294,6 +294,7 @@
       --shadow: 4px 4px 9px color-mix(in oklab, var(--gray-d3), transparent 70%);
       --drop-shadow: 4px 4px 9px color-mix(in oklab, var(--gray-d3), transparent 70%);
 
+      --shadow-subtle: 1px 1px 4px 1px color-mix(in oklab, var(--gray-d2), transparent 70%);
       --shadow-elevation: 4px 4px 9px var(--gray-l2), 0px 0px 1px var(--color-base);
 
       --focus-ring-width: 2px;

@@ -1,221 +1,83 @@
 @layer components.header {
   .main {
-    --header-bg: var(--gradient-light-dark);
-
     container: header / inline-size;
-
-    position: sticky;
-    z-index: 1;
-    inset-block-start: 0;
     display: flex;
-    grid-column: wide;
-    grid-row: header;
-    flex-direction: row;
-    gap: var(--gutter-sm);
+    z-index: 1;
+    position: sticky;
 
+    grid-row: header;
+    grid-column: wide;
     place-content: space-between;
     place-items: center stretch;
+    inset-block-start: 0;
 
-    /*  Aligns with content column where wide = + 1 col */
-    /* padding-inline: calc(100% / 12); */
-
-    padding-inline: var(--gutter);
+    padding-inline: var(--spacing-md);
     padding-block: var(--spacing-sm);
+    gap: var(--gutter-sm);
 
     border: var(--border-width) solid var(--primary-l4);
     border-radius: var(--border-radius);
-
     border-block-start: unset;
     border-start-start-radius: unset;
     border-start-end-radius: unset;
-    box-shadow: var(--shadow);
 
+    background-color: var(--color-primary);
+    background: var(--bg-container);
+    box-shadow: var(--shadow);
     color: var(--text-contrast);
 
-    /* background-color: var(--header-bg); */
-    /* background: var(--header-bg); */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
 
-    /* Hide header on scroll-up */
+  .siteHome {
+    display: grid;
+    column-gap: var(--gutter-xs);
+    grid-template: "logo vr title" "logo vr subtitle" / auto auto;
+    flex: 0 1 fit-content;
+    place-items: center;
 
-    .icon {
+    .vr {
+      /* vertical ruler */
+      grid-area: vr;
+      place-self: center;
+      inline-size: 5px;
+      block-size: 95%;
+      background-color: var(--color-base);
+      background: linear-gradient(90deg, transparent 3px, var(--color-base) 3px);
+    }
+
+    .siteLogo {
+      grid-area: logo;
       max-block-size: 2lh;
-      grid-area: icon;
 
-      box-shadow: 1px 1px 4px 1px color-mix(in oklab, var(--gray-d2), transparent 70%);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .title,
+    .subtitle {
+      line-height: var(--line-height-condensed);
     }
 
     .title {
       grid-area: title;
+      place-self: end start;
+      font-weight: bolder;
+      font-size: var(--fontsize-lg);
+      font-family: var(--font-headings);
+      text-transform: uppercase;
     }
 
     .subtitle {
       grid-area: subtitle;
-    }
-
-    hgroup {
-      display: grid;
-      grid-template: "icon vr title" "icon vr subtitle" / auto auto;
-
-      flex-wrap: wrap;
-      flex-direction: column;
-
-      flex: 0 1 fit-content;
-
-      column-gap: var(--spacing-xs);
-
-      text-decoration: none;
-
-      place-items: center;
-
-      .vr {
-        grid-area: vr;
-        place-self: center;
-        block-size: 95%;
-        inline-size: 5px;
-        background-color: var(--color-base);
-        background: linear-gradient(90deg, transparent 3px, var(--color-base) 3px);
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .title {
-        font-size: var(--fontsize-lg);
-        text-transform: uppercase;
-        place-self: end start;
-      }
-    }
-
-    :where(h1, h1 + p) {
-      margin-block: unset;
-      color: var(--text-contrast);
-      line-height: var(--line-height-condensed);
-    }
-
-    h1 {
-      font-size: var(--fontsize-lg);
-    }
-
-    h1 + p {
       place-self: start start;
-
       font-size: var(--fontsize-sm);
-      line-height: var(--line-height-condensed);
-    }
 
-    ._nav {
-      flex: 1 1 auto;
-      color: var(--text-contrast);
-
-      a {
-        color: inherit;
-      }
-
-      .menu,
-      .submenu {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(8ch, auto));
-        flex: 1 1 max-content;
-        gap: var(--spacing-xxs);
-        place-content: center flex-end;
-        place-items: center stretch;
-        text-align: center;
-
-        padding-inline: 0;
-        list-style: none;
-        font-size: var(--fontsize-md);
-
-        .menuItem {
-          position: relative;
-          padding: var(--spacing-xs);
-          border-radius: var(--border-radius);
-          flex: 1 0 min-content;
-
-          transition: all 280ms ease-in-out;
-        }
-
-        .menuItem,
-        .submenu__item {
-          background-color: transparent;
-
-          &:where(:hover, :focus-within) {
-            background-color: color-mix(in oklab, var(--color-contrast), transparent 80%);
-            /* backdrop-filter: blur(0.5rem); */
-
-            transition: all 280ms ease-in-out;
-          }
-        }
-
-        /* Stretched link */
-        .menuItem:not(.disabled) > a::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          z-index: 1;
-          cursor: pointer;
-        }
-      }
-
-      :where(.menuItem.disabled, .menuItem.disabled > a):where(&, :hover, :focus-within) {
-        cursor: not-allowed;
-
-        &:where(:hover, :focus-within) {
-          color: var(--text-disabled);
-        }
-      }
-
-      .menuItem.disabled:where(&, & > a):where(:hover, :focus-within) {
-        color: var(--text-disabled);
-      }
-
-      .btnGradient {
-        background-image: linear-gradient(
-          147deg,
-          var(--color-accent) 0%,
-          var(--accent-l1) 51%,
-          var(--color-accent) 80%,
-          var(--accent-l1) 100%
-        );
-        background-size: 200% 600%;
-        background-position: left top;
-
-        transition: all 380ms ease-in-out;
-      }
-
-      .btnGradient:hover {
-        background-position: right bottom;
-        box-shadow: 0px 0px 12px 2px color-mix(in oklab, var(--primary-l4), transparent 80%);
-      }
-
-      .featureBtn {
-        display: inline-block;
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--border-radius);
-
-        color: var(--text-contrast);
-        text-align: center;
-        text-decoration: none;
-        font-weight: 600;
-
-        &:hover,
-        &:focus-visible {
-          background-color: var(--accent-l1);
-        }
-
-        &:active {
-          background-color: var(--accent-l2);
-        }
-      }
-
-      @media screen and (inline-size < 865px) {
-        .menu {
-          display: none;
-        }
+      &:not(.title + &) {
+        grid-row: "-1 / 1";
+        place-self: "center";
       }
     }
   }

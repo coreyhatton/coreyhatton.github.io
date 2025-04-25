@@ -47,6 +47,7 @@
       --gutter-sm: var(--spacing-sm);
       --gutter: var(--spacing-md);
       --gutter-lg: var(--spacing-lg);
+      --gutter-xl: var(--spacing-xl);
 
       /* Ensure that the horizontal screen padding is always at least 6% of the viewport on either side*/
       /* --min-content-width: calc(100dvi - calc(6dvi * 2)); */

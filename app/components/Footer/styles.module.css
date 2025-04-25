@@ -1,52 +1,78 @@
 @layer components.footer {
   .main {
+    /* container: footer / inline-size; */
     display: flex;
-    flex-wrap: wrap;
-    grid-column: wide;
-    grid-row: footer;
-    gap: var(--gutter-sm);
 
+    grid-row: footer;
+    grid-column: full;
+    flex-wrap: wrap;
     place-content: center;
     place-items: center stretch;
 
-    padding-inline: var(--gutter);
+    padding-inline: var(--spacing-md);
     padding-block: var(--spacing-sm);
+    gap: var(--gutter-sm);
 
-    border: var(--border-width) solid var(--primary-l4);
+    border: var(--border-container);
     border-radius: var(--border-radius);
-
     border-block-end: unset;
     border-end-start-radius: unset;
     border-end-end-radius: unset;
-    box-shadow: var(--shadow);
-
-    color: var(--text-contrast);
 
     background-color: var(--color-primary);
     background: var(--bg-container);
+    box-shadow: var(--shadow);
+    color: var(--text-contrast);
 
     font-size: var(--fontsize-sm);
 
-    > *:not(:first-child):not(:last-child) {
-      text-align: center;
-      justify-content: center;
+    &.full {
+      grid-column: full;
+      border-radius: unset;
+      border-inline: unset;
     }
 
-    > *:first-child,
-    > *:last-child {
-      flex: 1 0;
-      text-align: start;
-      justify-content: start;
+    &.wide {
+      grid-column: wide;
     }
 
-    > *:last-child {
-      text-align: end;
-      justify-content: end;
+    &.content {
+      grid-column: content;
     }
-  }
 
-  /* Justifies content if there is more than one child element */
-  .main:has(> :not(:only-child)) {
-    place-content: space-between;
+    &.customWidth {
+      max-inline-size: 100cqi;
+      margin-inline: auto;
+
+      @container (inline-size > 100%) {
+        border-radius: unset;
+        border-inline: unset;
+      }
+    }
+
+    /* Spread content when there is more than one child, otherwise center it. */
+    :has(> :not(:only-child)) {
+      place-content: space-between;
+    }
+
+    /* Centers content to page rather than space between */
+
+    > * {
+      --footer-alignment: center;
+      justify-content: var(--footer-alignment);
+
+      &:is(p) {
+        text-align: var(--footer-alignment);
+      }
+
+      &:first-child {
+        flex: 1 0;
+        --footer-alignment: start;
+      }
+      &:last-child {
+        flex: 1 0;
+        --footer-alignment: end;
+      }
+    }
   }
 }

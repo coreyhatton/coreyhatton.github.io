@@ -1,49 +1,59 @@
 import clsx from "clsx";
-import React from "react";
 import { Link } from "react-router";
+import type { GridWidth, OtherWidth } from "../types";
 import styles from "./styles.module.css";
 
 interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   siteLogo?: string;
   siteTitle?: string;
   siteTagline?: string;
-  hideOnScrollDown?: boolean;
-  scrollThreshold?: number | { up: number; down: number };
-  isVisible?: boolean;
   headerRef?: React.RefObject<HTMLElement>;
+  width?: GridWidth | OtherWidth;
 }
 
 export const Header = ({
   siteLogo,
   siteTitle,
   siteTagline,
-  hideOnScrollDown = false,
-  scrollThreshold,
   headerRef,
+  width = "full",
   ...props
 }: HeaderProps) => {
-  // const headerRef = useRef<HTMLDivElement | null>(null);
+  const isGridWidth = ["full", "wide", "content"].includes(width);
 
-  // const { isHidden, overrideState } = useStickyHeader({
-  //   headerElement:
-  //     hideOnScrollDown ? (headerRef as React.RefObject<HTMLElement>) : null,
-  //   scrollThreshold: scrollThreshold,
-  // });
+  const headerClassName = clsx(
+    styles.main,
+    props.className,
+    styles[isGridWidth ? width : "customWidth"],
+  );
 
-  const classNameProp = clsx(styles.main, props.className || "");
+  const headerStyles = {
+    ...props.style,
+    inlineSize: isGridWidth ? undefined : `min(${width}, 100%)`,
+    marginInline: isGridWidth ? undefined : "auto",
+  };
 
   return (
-    <header {...props} ref={headerRef} className={classNameProp}>
-      <hgroup>
+    <header
+      {...props}
+      ref={headerRef}
+      style={headerStyles}
+      className={headerClassName}
+    >
+      <div className={styles.siteHome}>
         <Link to="/" style={{ display: "contents" }}>
           {siteLogo && (
-            <img src={siteLogo} className={styles.icon} alt="Corey Hatton" />
+            <img
+              src={siteLogo}
+              className={styles.siteLogo}
+              alt="Corey Hatton"
+            />
           )}
           {siteLogo && (siteTitle || siteTagline) && (
             <span className={styles.vr} />
           )}
           {siteTitle && (
-            <h1
+            <p
               className={`${styles.title}`}
               style={
                 siteTagline ?
@@ -55,7 +65,7 @@ export const Header = ({
               }
             >
               Corey Hatton
-            </h1>
+            </p>
           )}
           {siteTagline && (
             <p
@@ -73,7 +83,7 @@ export const Header = ({
             </p>
           )}
         </Link>
-      </hgroup>
+      </div>
       {props.children}
     </header>
   );

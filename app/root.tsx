@@ -8,11 +8,10 @@ import {
 } from "react-router";
 
 import { Icon } from "@iconify/react";
-import background from "~/assets/beach.jpg";
 import favicon from "~/assets/favicon.png";
 import type { Route } from "./+types/root";
-import stylesheet from "./app.css?url";
 
+import stylesheet from "./app.css?url";
 import gridStyles from "./grid.module.css";
 
 export const links: Route.LinksFunction = () => [
@@ -37,11 +36,6 @@ export const links: Route.LinksFunction = () => [
     href: favicon,
     type: "image/png",
   },
-  {
-    rel: "preload",
-    href: background,
-    as: "image",
-  },
 ];
 
 export function Layout({ children }: { children?: React.ReactNode }) {
@@ -55,7 +49,7 @@ export function Layout({ children }: { children?: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div id="root" className={`bg-full ${gridStyles.gridLayout} `}>
+        <div id="root" className={`${gridStyles.gridLayout} `}>
           {children}
           {/* <p className="copyright">{`©Corey Hatton ${new Date().getFullYear()}`}</p> */}
         </div>

@@ -19,6 +19,8 @@
         }
     ],
     "plugins": [
-        "@prettier/plugin-xml"
-    ]
+        "@prettier/plugin-xml",
+        "prettier-plugin-css-order"
+    ],
+    "cssDeclarationSorterOrder": "smacss"
 }
