@@ -17,19 +17,9 @@ export const Header = ({
   siteLogo,
   siteTitle,
   siteTagline,
-  hideOnScrollDown = false,
-  scrollThreshold,
   headerRef,
   ...props
 }: HeaderProps) => {
-  // const headerRef = useRef<HTMLDivElement | null>(null);
-
-  // const { isHidden, overrideState } = useStickyHeader({
-  //   headerElement:
-  //     hideOnScrollDown ? (headerRef as React.RefObject<HTMLElement>) : null,
-  //   scrollThreshold: scrollThreshold,
-  // });
-
   const classNameProp = clsx(styles.main, props.className || "");
 
   return (

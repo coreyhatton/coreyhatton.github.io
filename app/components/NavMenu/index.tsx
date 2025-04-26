@@ -15,6 +15,7 @@ interface NavLinkProps extends React.ComponentPropsWithoutRef<"li"> {
   title?: string;
   icon?: string;
   linkType?: "page" | "resource" | "external";
+  linkProps?: React.ComponentPropsWithoutRef<"a">;
 }
 
 interface featureButtonProps
@@ -101,6 +102,7 @@ export const NavMenu = ({
             title,
             icon,
             linkType,
+            linkProps,
             ...props
           }) => (
             <li
@@ -113,18 +115,33 @@ export const NavMenu = ({
               style={linkStyle}
               {...props}
             >
-              {!disabled ?
-                <NavLink
+              {disabled ?
+                <span title={title}>{label}</span>
+              : linkType === "external" ?
+                <a
+                  href={to || ""}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={title}
+                  {...linkProps}
+                >
+                  {label}{" "}
+                  {icon && (
+                    <IconComponent iconifyIcon={icon} height={"1.2cap"} />
+                  )}
+                </a>
+              : <NavLink
                   to={to || ""}
                   title={title}
                   reloadDocument={linkType === "resource"}
+                  {...linkProps}
                 >
                   {label}{" "}
                   {icon && (
                     <IconComponent iconifyIcon={icon} height={"1.2cap"} />
                   )}
                 </NavLink>
-              : <span title={title}>{label}</span>}
+              }
             </li>
           ),
         )}
