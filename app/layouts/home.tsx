@@ -30,6 +30,7 @@ const HomeLayout = () => {
     {
       to: "https://coreyhatton.github.io/colorDemo/",
       label: "Color Demo",
+      linkType: "external" as const,
     },
   ];
 
