@@ -1,0 +1,1 @@
+import{o as e}from"./chunk-D4RADZKF-e15w_oq8.js";import{I as n}from"./iconify-JMEulLyl.js";const i=({iconifyIcon:o,...t})=>e.jsx(n,{...t,icon:o,style:{height:t.height?t.height:"1.2cap",width:"auto",flex:"none",...t.style}});i.displayName="Icon";export{i as I};
