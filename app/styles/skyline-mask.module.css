@@ -1,87 +1,90 @@
-.skylineMask,
-.skylineMask.defaults {
-  /* --aspect-ratio: 6.35 / 1;
+/* Temporary fix for webkit failures */
+@supports (overflow-inline: scroll) {
+  .skylineMask,
+  .skylineMask.defaults {
+    /* --aspect-ratio: 6.35 / 1;
       height = 0.16 (16%) */
 
-  --svg-height: calc(var(--spacing-unit, 1rlh) * 6);
-  --svg-width: 102%;
+    --svg-height: calc(var(--spacing-unit, 1rlh) * 6);
+    --svg-width: 102%;
 
-  --svg-src-mask: url("/app/assets/skyline-01.svg");
-  --svg-src-outline: url("/app/assets/skyline-ex.svg");
+    --svg-src-mask: url("/app/assets/skyline-01.svg");
+    --svg-src-outline: url("/app/assets/skyline-ex.svg");
 
-  --svg-mask-position: left calc(100% + var(--svg-height));
+    --svg-mask-position: left calc(100% + var(--svg-height));
 
-  --transition-duration: 300ms;
-  --transition-function: ease-in-out;
-  --transition-delay: 250ms;
+    --transition-duration: 300ms;
+    --transition-function: ease-in-out;
+    --transition-delay: 250ms;
 
-  --block-border-width: 4px;
-  --block-border-color: var(--primary-l4);
-}
+    --block-border-width: 4px;
+    --block-border-color: var(--primary-l4);
+  }
 
-.skylineMask {
-  position: relative;
-  padding-block: var(--svg-height);
-
-  mask:
-    linear-gradient(90deg, transparent 33% 33%, black 66% 66%) right calc(100% + var(--block-border-width, 0px)) / 300%
-      300%,
-    var(--svg-src-mask) left calc(102% + var(--block-border-width, 0px)) / var(--svg-width) var(--svg-height),
-    linear-gradient(black 0 0) 0 0 / 100% 100%;
-
-  mask-composite: add, exclude, add;
-
-  transition:
-    mask-position var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 1),
-    border-radius var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 0.8),
-    border-color var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 1);
-
-  &::after {
-    content: "";
-    position: absolute;
-    pointer-events: none;
-
-    box-sizing: border-box;
-
-    inset: calc(0px - var(--block-border-width, 0px));
-
-    background-color: var(--block-border-color);
-    border-radius: inherit;
+  .skylineMask {
+    position: relative;
+    padding-block: var(--svg-height);
 
     mask:
-      linear-gradient(black 0 0) 0 0 / 0% 0%,
-      var(--svg-src-outline) left calc(102% + var(--block-border-width, 0px)) / var(--svg-width) var(--svg-height),
-      linear-gradient(90deg, black 33% 33%, transparent 66% 66%) right bottom / 300% 300%;
-    mask-composite: intersect;
+      linear-gradient(90deg, transparent 33% 33%, black 66% 66%) right calc(100% + var(--block-border-width, 0px)) /
+        300% 300%,
+      var(--svg-src-mask) left calc(102% + var(--block-border-width, 0px)) / var(--svg-width) var(--svg-height),
+      linear-gradient(black 0 0) 0 0 / 100% 100%;
+
+    mask-composite: add, exclude, add;
 
     transition:
-      mask-position var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 0.9),
-      border-radius var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 1);
-  }
-
-  &,
-  &::after {
-    mask-repeat: repeat-x;
-    mask-origin: border-box;
-  }
-
-  &:hover {
-    border-end-end-radius: 0;
-    border-end-start-radius: 0;
-    border-block-end-color: transparent;
-    /* transition-delay: var(--transition-delay); */
-
-    mask-position:
-      left top,
-      left calc(100% + var(--block-border-width, 0px)),
-      0 0;
+      mask-position var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 1),
+      border-radius var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 0.8),
+      border-color var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 1);
 
     &::after {
-      transition-delay: calc(var(--transition-delay) * 1.1);
+      content: "";
+      position: absolute;
+      pointer-events: none;
+
+      box-sizing: border-box;
+
+      inset: calc(0px - var(--block-border-width, 0px));
+
+      background-color: var(--block-border-color);
+      border-radius: inherit;
+
+      mask:
+        linear-gradient(black 0 0) 0 0 / 0% 0%,
+        var(--svg-src-outline) left calc(102% + var(--block-border-width, 0px)) / var(--svg-width) var(--svg-height),
+        linear-gradient(90deg, black 33% 33%, transparent 66% 66%) right bottom / 300% 300%;
+      mask-composite: intersect;
+
+      transition:
+        mask-position var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 0.9),
+        border-radius var(--transition-duration) var(--transition-function) calc(var(--transition-delay) * 1);
+    }
+
+    &,
+    &::after {
+      mask-repeat: repeat-x;
+      mask-origin: border-box;
+    }
+
+    &:hover {
+      border-end-end-radius: 0;
+      border-end-start-radius: 0;
+      border-block-end-color: transparent;
+      /* transition-delay: var(--transition-delay); */
+
       mask-position:
         left top,
         left calc(100% + var(--block-border-width, 0px)),
         0 0;
+
+      &::after {
+        transition-delay: calc(var(--transition-delay) * 1.1);
+        mask-position:
+          left top,
+          left calc(100% + var(--block-border-width, 0px)),
+          0 0;
+      }
     }
   }
 }
