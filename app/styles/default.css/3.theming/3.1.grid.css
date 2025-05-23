@@ -1,18 +1,28 @@
-@layer theming.grid {
+@layer layouts.grid {
   /* --------- BODY LAYOUT --------- */
-  body:has(&:not(body > #root)),
-  body > #root {
+  :root,
+  ::backdrop {
+    /* Achieves WCAG 2.1: Reflow (SC 1.4.10)
+      @see https://www.w3.org/TR/WCAG21/#reflow 
+    */
+    min-inline-size: 320px;
+  }
+
+  body:has(body :not(div#root)),
+  body div#root {
     display: grid;
     gap: var(--gutter, 1rem);
     column-gap: var(--gutter-sm);
-    min-block-size: 100dvb;
+
+    min-block-size: 100vb;
 
     /* @DEV Auto-fit doesn't currently play nice with containment in webkit browsers 
        @see https://bugs.webkit.org/show_bug.cgi?id=256047 */
     /* container: body / inline-size; */
 
     --content-size: 960px;
-    --wide-size: 1200px;
+    /* --wide-size: 1200px; */
+    --wide-size: 960px;
     /* NOTE: Must match with min-width specified in the below media query. */
     --wide-col-size: calc((var(--wide-size) / 6) - (var(--gutter-sm) * 12));
 
@@ -43,7 +53,7 @@
 
     /* Expand wide columns out from content columns with large screen width */
     /* The min-width specified here should match with the --content-size property. */
-    @media screen and (min-width: 1200px) {
+    @media screen and (min-width: 960px) {
       & {
         --template-columns: var(--wide-template-columns);
         --flex-child__wide-gutters: calc(var(--flex-child__content-gutters) + var(--wide-col-size));
@@ -51,7 +61,10 @@
       }
     }
 
-    grid-template-rows: [header-start] auto [header-end content-start wide-start] 1fr [content-end wide-end footer-start] auto [footer-end];
+    grid-template-rows:
+      [header-start] auto
+      [header-end content-start wide-start] 1fr
+      [content-end wide-end footer-start] auto [footer-end];
 
     /* Uses --template-columns property set above to determine column layout */
     grid-template-columns:
@@ -59,52 +72,9 @@
       /* changes on screen width */
       var(--grid-page-gutters) [header-end footer-end full-end];
 
-    /* 
-     * TODO DEV: Implement once css style queries are baseline supported, replacing media query
-     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_size_and_style_queries#browser_compatibility  
-     */
-    /* @container style(--size: wide) {
-      & {
-        grid-template-columns:
-          [full-start header-start footer-start] max(8dvi, calc(50dvi - var(--content-size) / 2))
-          [wide-start col-start] minmax(0, 1fr) [col-end content-start]
-          repeat(10, [col-start] minmax(0, 1fr) [col-end])
-          [content-end col-start] minmax(0, 1fr) [col-end wide-end]
-          max(8dvi, calc(50dvi - var(--content-size) / 2))
-          [header-end footer-end full-end];
-      }
-    } */
-
-    :where(header, footer):not(main header, main footer) {
-      display: grid;
-      grid-template-columns: subgrid;
-      grid-row: header;
-
-      grid-column: header;
-    }
-
-    > :where(main, aside, nav) {
-      grid-row: content;
-      grid-column: content;
-    }
-
-    > aside ~ main {
-      grid-column: main;
-    }
-
-    /* main,
-    :where(header, footer):not(main header, main footer), */
-    /* > * {
-      display: grid;
-      grid-template-columns: subgrid;
+    /* Ensure layout defaults to proper column layout */
+    & > * {
       grid-column: full;
-      row-gap: var(--gutter); */
-
-    > * {
-      grid-column: content;
-      /* NOTE: default to column. Expand to wide on individual elements. */
     }
-
-    /* } */
   }
 }

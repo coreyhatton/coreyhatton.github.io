@@ -1,2 +1,2 @@
-export type OtherWidth = string & {};
+export type PxWidth = string & {} | number;
 export type GridWidth = "full" | "wide" | "content";

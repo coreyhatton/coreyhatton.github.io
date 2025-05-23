@@ -8,5 +8,5 @@ export default {
   // async prerender() {
   //   return ["/"];
   // },
-  prerender: true,
+  // prerender: true,
 } satisfies Config;

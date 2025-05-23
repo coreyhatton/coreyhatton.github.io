@@ -46,7 +46,7 @@ const HomeLayout = () => {
 
   const { overrideRef } = useStickyHeader({
     headerElement: headerRef as React.RefObject<HTMLElement>,
-    scrollThreshold: 30, // in px
+    scrollThreshold: { up: 60, down: 0 }, // in px
   });
 
   // block translation effects when panelState is open
@@ -82,7 +82,10 @@ const HomeLayout = () => {
         <Outlet />
       </Main>
 
-      <Footer className={styles.linearGradientBg} width={"full"}>
+      <Footer
+        // className={styles.linearGradientBg}
+        width={"1200px"}
+      >
         <p>{`© Corey Hatton ${new Date().getFullYear()}`}</p>
         <Socials className={styles.center} />
         <p>This website is open source.</p>

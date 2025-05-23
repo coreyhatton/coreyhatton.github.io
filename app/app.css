@@ -1,5 +1,5 @@
 @layer defaultCss, layouts, primitives, components;
-@import url("./styles/default.css/IMPORTS.css") layer(defaultCss.setup.imports);
+/* @import url("./styles/default.css/IMPORTS.css") layer(defaultCss.setup.imports); */
 @import url("./styles/default.css/style.css") layer(defaultCss);
 
 :root,

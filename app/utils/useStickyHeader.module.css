@@ -1,0 +1,31 @@
+.stickyHeader {
+  --transition-duration: 700ms;
+  /* --transition-function: ease-out; */
+  --transition-function-in: ease-out;
+  --transition-function-out: ease-in;
+  --position: sticky;
+  --sticky-boundary: 0px;
+  --z-layer: 99;
+
+  --height-offset: 30px;
+
+
+  position: var(--position, sticky);
+  inset-block-start: var(--sticky-boundary, 0px);
+  z-index: var(--z-layer, 99);  
+
+  transition: inset-block-start var(--transition-duration) var(--transition-function-in), position var(--transition-duration) var(--transition-function-in) allow-discrete;
+}
+
+.attached {
+  position: var(--position, sticky);
+  inset-block-start: var(--sticky-boundary, 0px);
+}
+
+.detached {
+  position: var(--position, static);
+  inset-block-start: calc(0px - 100% - var(--height-offset, 30px));
+  transition: inset-block-start var(--transition-duration) var(--transition-function-out), position var(--transition-duration) var(--transition-function-out) allow-discrete;
+}
+
+

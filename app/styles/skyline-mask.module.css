@@ -1,4 +1,5 @@
-.skylineMask,
+@supports (overflow-inline: scroll) {
+   .skylineMask,
 .skylineMask.defaults {
   /* --aspect-ratio: 6.35 / 1;
       height = 0.16 (16%) */
@@ -84,4 +85,4 @@
         0 0;
     }
   }
-}
+}}

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Link } from "react-router";
-import type { GridWidth, OtherWidth } from "../types";
+import type { GridWidth, PxWidth } from "../types";
 import styles from "./styles.module.css";
 
 interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -8,7 +8,7 @@ interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   siteTitle?: string;
   siteTagline?: string;
   headerRef?: React.RefObject<HTMLElement>;
-  width?: GridWidth | OtherWidth;
+  width?: GridWidth | PxWidth;
 }
 
 export const Header = ({
@@ -19,7 +19,10 @@ export const Header = ({
   width = "full",
   ...props
 }: HeaderProps) => {
-  const isGridWidth = ["full", "wide", "content"].includes(width);
+  const isGridWidth =
+    typeof width === "string" ?
+      ["full", "wide", "content"].includes(width)
+    : false;
 
   const headerClassName = clsx(
     styles.main,
