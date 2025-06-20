@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 
 import footerStyles from "~/components/Footer/styles.module.css";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import resume from "~/assets/CH_Resume_25.pdf";
 import icon from "~/assets/favicon.png";
 import Footer from "~/components/Footer";
@@ -50,15 +50,12 @@ const HomeLayout = () => {
 
   const headerRef = useRef<HTMLDivElement | null>(null);
 
-  const { overrideRef } = useStickyHeader({
+  // const { overrideRef } = useStickyHeader({
+  useStickyHeader({
     headerElement: headerRef as React.RefObject<HTMLElement>,
     scrollThreshold: 30,
+    syncWithStates: [panelState.open],
   });
-
-  // block translation effects when panelState is open
-  useEffect(() => {
-    overrideRef.current = panelState.open;
-  }, [panelState.open, overrideRef]);
 
   return (
     <>

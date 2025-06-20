@@ -1,17 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
-interface ScrollThresholdObject {
-  up: number;
-  down: number;
+import styles from "./useStickyHeader.module.css";
+
+export interface ScrollThresholdObject {
+  up: number; // in px;
+  down: number; // in px;
 }
 
-/**
- * Properties for the useHideHeaderOnScroll hook.
- */
-interface UseStickyHeaderProps {
+export interface UseStickyHeaderProps {
   /**
    * The scroll thresholds for hiding and showing the header.
-   * It can be a number, string, or an object with 'up' and 'down' properties.
+   * If a number or string is passed, it will be used for the up threshold only.
    */
   scrollThreshold?: ScrollThresholdObject | number | string;
 
@@ -19,22 +18,96 @@ interface UseStickyHeaderProps {
    * The header element to be animated. It can be an HTMLElement,
    * a React ref object pointing to an HTMLElement, or null.
    */
-  headerElement: HTMLElement | React.RefObject<HTMLElement> | null;
-  override?;
+  headerElement: HTMLElement | React.RefObject<HTMLElement | null> | null;
+
+  /**
+   * The position of the header element.
+   * @default "sticky"
+   */
+  position?: "sticky" | "fixed";
+
+  /**
+   * The top position of the header element.
+   * @default "0"
+   */
+  stickyBoundary?: React.CSSProperties["insetBlockStart" | "top"];
+
+  /**
+   * The z-index of the header element.
+   * @default "99"
+   */
+  zIndex?: React.CSSProperties["zIndex"];
+
+  /**
+   * The transition duration of the header element.
+   * @default "700ms"
+   */
+  transitionDuration?: React.CSSProperties["transitionDuration"];
+
+  /**
+   * The transition function of the header element when attached.
+   * @default "ease-out"
+   */
+  transitionFunctionIn?: React.CSSProperties["transitionTimingFunction"];
+
+  /**
+   * The transition function of the header element when detached.
+   * @default "ease-in"
+   */
+  transitionFunctionOut?: React.CSSProperties["transitionTimingFunction"];
+
+  syncWithStates?: boolean | boolean[];
 }
 
+const HEIGHT_OFFSET = 30; // in px, ensures element is fully off-screen.
+const SCROLL_THRESHOLD_MIN = 10; // in px
+const DEFAULTS = {
+  position: "sticky",
+  stickyBoundary: "0px",
+  zIndex: "99",
+  transitionDuration: "700ms",
+  transitionFunctionIn: "ease-out",
+  transitionFunctionOut: "ease-in",
+} as const;
+
 /**
- * Custom hook to animate the header element off-screen during downward
- * scrolling, and bring it back on-screen during upward scrolling.
+ * A hook that animates a header element in response to user scroll activity.
  *
- * @param {UseStickyHeaderProps} props - The properties for configuring
- * the scroll behavior, including thresholds and the header element reference.
+ * The hook returns an object with the following properties:
+ * - `isHidden`: A boolean indicating whether the header element is currently hidden.
+ * - `overrideRef`: A React ref object to force the header to be visible. Set `overrideRef.current` to `true` to force the header to be visible.
+ *
+ * @param {UseStickyHeaderProps} props An object of props to control the sticky header.
+ * @returns An object with properties `isHidden` and `overrideRef`.
  */
 export const useStickyHeader = ({
-  scrollThreshold = { up: 0, down: 0 },
   headerElement,
+  scrollThreshold = { up: 30, down: SCROLL_THRESHOLD_MIN },
+  position = DEFAULTS.position,
+  stickyBoundary = DEFAULTS.stickyBoundary,
+  zIndex = DEFAULTS.zIndex,
+  transitionDuration = DEFAULTS.transitionDuration,
+  transitionFunctionIn = DEFAULTS.transitionFunctionIn,
+  transitionFunctionOut = DEFAULTS.transitionFunctionOut,
+  syncWithStates,
 }: UseStickyHeaderProps) => {
-  const HEIGHT_OFFSET = 30; // in px, ensures element is off-screen.
+  /**
+   * A set of CSS variables to be applied to the header element.
+   * Will not be applied if the value is the same as the default, instead falling
+   * back to defaults defined in the css.
+   */
+  const styleProps = Object.fromEntries(
+    Object.entries({
+      position,
+      stickyBoundary,
+      zIndex,
+      transitionDuration,
+      transitionFunctionIn,
+      transitionFunctionOut,
+    }).filter(
+      ([key, value]) => value !== DEFAULTS[key as keyof typeof DEFAULTS],
+    ),
+  );
 
   const node = useRef(
     headerElement && "current" in headerElement ?
@@ -46,6 +119,7 @@ export const useStickyHeader = ({
     prevScrollTop: 0,
     totalScrollDistance: 0,
     currentTranslation: undefined as number | undefined,
+    isHidden: false,
     browserAnimationFrames: undefined as number | undefined,
   });
 
@@ -54,27 +128,20 @@ export const useStickyHeader = ({
       { up: Number(scrollThreshold), down: 0 }
     : scrollThreshold;
 
-  const [state, setState] = useState({ isHidden: false, pctHidden: 0 });
-
   const overrideRef = useRef(false);
 
   /**
    * Retrieves the top position of the current header element relative to the viewport.
-   *
-   * @returns {number} The top position of the header element in px or 0 if not available.
    */
-  function getElementTopPosition() {
+  const getElementTopPosition = (): number => {
     const elPosition = node.current?.getBoundingClientRect();
     return elPosition?.top ?? 0;
-  }
+  };
 
   /**
    * Calculates the scroll distance from the previous scroll position.
-   *
-   * @param {number} scrollTop The current scroll position from the top of the page.
-   * @returns {number} The scroll distance since the last calculation.
    */
-  const calculateScrollDistance = (scrollTop) => {
+  const calculateScrollDistance = (scrollTop: number): number => {
     const { prevScrollTop } = scrollRef.current;
     const scrollDistance = scrollTop - prevScrollTop;
 
@@ -84,11 +151,12 @@ export const useStickyHeader = ({
     return scrollDistance;
   };
 
-  const calculateTotalScrollDistance = (scrollDistance) => {
+  const calculateTotalScrollDistance = (scrollDistance: number) => {
     // reset total scroll distance if direction changes
     if (
       Math.sign(scrollDistance) ===
-      Math.sign(scrollRef.current.totalScrollDistance)
+        Math.sign(scrollRef.current.totalScrollDistance) ||
+      scrollDistance === 0
     ) {
       scrollRef.current.totalScrollDistance += scrollDistance;
     } else {
@@ -98,128 +166,177 @@ export const useStickyHeader = ({
     return scrollRef.current.totalScrollDistance;
   };
 
-  const calculateTranslation = (
-    elementTop: number,
-    elementHeight: number,
-    scrollDistance: number,
-    totalScrollDistance: number,
-  ) => {
-    // determine which threshold to use based on scroll direction
-    // where scrollDistance < 0 is scroll up
-    const threshold =
-      scrollDistance < 0 ?
-        Math.abs(scrollUpThreshold)
-      : Math.abs(scrollDownThreshold);
+  const calculateIsHidden = useCallback(
+    (
+      elementHeight: number,
+      pageScrollTop: number,
+      pageScrollDistance: number,
+      totalScrollDistance: number,
+      elementTopPosition: number,
+    ) => {
+      let isHidden = scrollRef.current.isHidden;
 
-    const height = elementHeight - HEIGHT_OFFSET;
+      const height = elementHeight - HEIGHT_OFFSET;
+      const scrollUp = pageScrollDistance < 0;
+      const scrollDown = pageScrollDistance > 0;
+      // determine which threshold to use based on scroll direction
+      const threshold =
+        scrollUp ? Math.abs(scrollUpThreshold)
+        : scrollDown ? Math.abs(scrollDownThreshold)
+        : 0;
 
-    // reset total scroll distance if within element bounds
-    // - ensures it moves without a threshold at the top
-    if (elementTop >= -height) {
-      // shouldn't this be scrollTop?
-      scrollRef.current.totalScrollDistance = 0;
-      setState({
-        ...state,
-        pctHidden: (Math.abs(elementTop) / height) * 100,
-        isHidden: elementTop === -height ? true : false,
-      });
-      // scrollRef.current.pctVisibile =
-      //   (Math.abs(elementTop) / elementHeight) * 100;
-    } else {
-      setState({ ...state, isHidden: false, pctHidden: 100 });
-    }
+      switch (true) {
+        case overrideRef.current:
+          isHidden = false;
+          console.log("case overrideRef.current");
+          break;
+        case elementTopPosition > 0:
+          // element hasn't reached top of page yet
+          isHidden = false;
+          scrollRef.current.totalScrollDistance = 0;
+          console.log("case elementTopPosition > 0");
+          break;
+        case scrollUp && pageScrollTop <= height:
+          scrollRef.current.totalScrollDistance = 0;
+          console.log("case scrollUp && pageScrollTop <= height");
+          isHidden = false;
+          break;
+        case pageScrollTop <= height && totalScrollDistance < height:
+          scrollRef.current.totalScrollDistance = 0;
+          console.log("still at top of page. rely on sticky behavior");
+          isHidden = true;
+          break;
+        case Math.abs(totalScrollDistance) < threshold ||
+          Math.abs(totalScrollDistance) < SCROLL_THRESHOLD_MIN ||
+          pageScrollTop < height:
+          // hasn't reached threshold yet
+          console.log("case Math.abs(totalScrollDistance) < threshold");
+          break;
+        case scrollUp:
+          isHidden = false;
+          console.log("case scrollUp");
+          break;
+        case scrollDown:
+          // finally, if none of the above cases apply and we're scrolling down, hide the header
+          isHidden = true;
+          console.log("case scrollDown");
+          break;
+      }
 
-    if (
-      Math.abs(totalScrollDistance) < threshold &&
-      elementTop >= 0 // not part-way through scrolling
-    ) {
-      return scrollRef.current.currentTranslation || 0;
-    }
+      // default
+      return isHidden !== scrollRef.current.isHidden;
+    },
+    [scrollUpThreshold, scrollDownThreshold],
+  );
 
-    //
-    return Math.max(
-      Math.min(
-        elementTop +
-          (scrollDistance < 0 ?
-            Math.abs(scrollDistance)
-          : -Math.abs(scrollDistance)),
-        0,
-      ),
-      -elementHeight,
-    );
-  };
-
-  /**
-   * Handles the translation of an element based on the user's scroll activity.
-   *
-   * @param {Object} currentScrollRef - Object containing scroll-related properties.
-   * @param {number} currentScrollRef.prevScrollTop - The previous scroll position from the top of the page.
-   * @param {number} [currentScrollRef.browserAnimationFrames] - stores the requestAnimationFrame ID.
-   * @param {number} [currentScrollRef.totalScrollDistance] - tracks the total distance scrolled.
-   * @param {number} [currentScrollRef.currentTranslation] - stores the current translation amount.
-   */
-
-  const handleTranslation = (currentScrollRef: {
-    prevScrollTop: number;
-    browserAnimationFrames: number | undefined;
-    totalScrollDistance: number | undefined;
-    currentTranslation: number | undefined;
-  }) => {
-    scrollRef.current.browserAnimationFrames = requestAnimationFrame(() => {
+  const handleScroll = useCallback(
+    (currentScrollRef: {
+      prevScrollTop: number;
+      browserAnimationFrames: number | undefined;
+      totalScrollDistance: number | undefined;
+      currentTranslation: number | undefined;
+      isHidden: boolean | undefined;
+    }) => {
       const scrollTop = window.scrollY;
       const scrollDistance = calculateScrollDistance(scrollTop);
       const totalScrollDistance = calculateTotalScrollDistance(scrollDistance);
-      const elementTop = getElementTopPosition();
       const elementHeight = (node?.current?.offsetHeight ?? 0) + HEIGHT_OFFSET;
+      const elementPosition = getElementTopPosition();
 
-      const translationAmount = calculateTranslation(
-        elementTop,
-        elementHeight,
-        scrollDistance,
-        totalScrollDistance,
-      );
-
-      if (
-        overrideRef.current !== true &&
-        node.current &&
-        translationAmount !== currentScrollRef.currentTranslation
-      ) {
-        currentScrollRef.currentTranslation = translationAmount;
-        node.current.style.translate = `0px ${translationAmount.toFixed(2)}px`;
+      if (currentScrollRef.browserAnimationFrames) {
+        cancelAnimationFrame(currentScrollRef.browserAnimationFrames);
       }
 
-      currentScrollRef.prevScrollTop = scrollTop; // update prevScrollTop value after translation
-    });
-  };
+      const changeState = calculateIsHidden(
+        elementHeight,
+        scrollTop,
+        scrollDistance,
+        totalScrollDistance,
+        elementPosition,
+      );
 
+      const getActionType = () => {
+        if (!node.current) {
+          return null;
+        }
+
+        if (overrideRef.current || (changeState && currentScrollRef.isHidden)) {
+          return "show";
+        }
+
+        if (changeState && !currentScrollRef.isHidden) {
+          return "hide";
+        }
+
+        return null;
+      };
+
+      currentScrollRef.browserAnimationFrames = requestAnimationFrame(() => {
+        const action = getActionType();
+
+        if (!node.current) {
+          return;
+        }
+
+        if (action === "hide") {
+          // move header element off-screen if hidden
+          node.current.classList.remove(styles.attached);
+          node.current.classList.add(styles.detached);
+          currentScrollRef.isHidden = true;
+        }
+
+        if (action === "show") {
+          // move header element back on-screen if not hidden or if overridden
+          node.current?.classList.remove(styles.detached);
+          node.current?.classList.add(styles.attached);
+          currentScrollRef.isHidden = false;
+        }
+      });
+    },
+    [overrideRef, calculateIsHidden],
+  );
+
+  /**
+   * Handles the translation of an element based on the user's scroll activity.
+   * Effect runs once on mount to attach the listener and set initial values.
+   */
   useEffect(() => {
-    if (!node) {
-      return;
-    }
-
+    console.log("useStickyHeader useEffect");
     if (!node.current) {
       node.current =
         headerElement && "current" in headerElement ?
           headerElement?.current
         : (headerElement as HTMLElement);
+
+      // if header element is not found, return early
+      if (!node.current) return;
     }
 
-    const computedStyle =
-      node?.current ? window.getComputedStyle(node.current) : null;
-
-    if (!node.current) {
-      node.current =
-        headerElement && "current" in headerElement ?
-          headerElement?.current
-        : (headerElement as HTMLElement);
+    for (const key in styleProps) {
+      if (styleProps[key] === undefined) continue;
+      node.current.style.setProperty(key, styleProps[key].toString());
     }
 
-    if (
-      computedStyle?.position !== "sticky" &&
-      computedStyle?.position !== "fixed"
-    ) {
-      node.current.style.position = "sticky";
-      node.current.style.insetBlockStart = "0";
+    const exSync =
+      typeof syncWithStates === "undefined" ? []
+      : typeof syncWithStates === "boolean" ? [syncWithStates]
+      : syncWithStates;
+
+    let overridden = false;
+    for (const arg of exSync) {
+      if (arg) {
+        overridden = true;
+        overrideRef.current = overridden;
+      }
+    }
+
+    node.current.classList.add(styles.stickyHeader);
+    if (overridden) {
+      node.current.classList.remove(styles.detached);
+      node.current.classList.add(styles.attached);
+    } else {
+      node.current.classList.remove(styles.attached);
+      node.current.classList.add(styles.detached);
     }
 
     // update initial values to scrollRef reference on mount
@@ -227,13 +344,17 @@ export const useStickyHeader = ({
     currentScrollRef.prevScrollTop = window.scrollY;
     currentScrollRef.totalScrollDistance = 0;
     currentScrollRef.currentTranslation = 0;
+    currentScrollRef.isHidden = false;
 
-    node.current.style.translate = `0px 0px`;
+    if (!overridden) {
+      // attach scroll event listener
+      console.log("attaching scroll event listener");
+      window.addEventListener("scroll", () => handleScroll(currentScrollRef));
+    }
 
-    window.addEventListener("scroll", () =>
-      handleTranslation(currentScrollRef),
-    );
     return () => {
+      // cleanup on unmount
+      console.log("removing scroll event listener on cleanup");
       scrollRef.current = {
         ...scrollRef.current,
         prevScrollTop: 0,
@@ -241,17 +362,21 @@ export const useStickyHeader = ({
       };
 
       window.removeEventListener("scroll", () =>
-        handleTranslation(currentScrollRef),
+        handleScroll(currentScrollRef),
       );
       if (currentScrollRef.browserAnimationFrames) {
         cancelAnimationFrame(currentScrollRef.browserAnimationFrames);
       }
     };
-  }, [headerElement]);
+  }, [handleScroll, headerElement, styleProps, syncWithStates]);
 
   return {
-    pctHidden: state.pctHidden.toFixed(0) || 0,
-    isHidden: state.isHidden,
+    /** Current header state */
+    isHidden: scrollRef.current.isHidden,
+    /**
+     * React ref object to force the header to be visible.
+     * Set overrideRef.current to true to force the header to be visible.
+     */
     overrideRef,
   };
 };
